@@ -187,7 +187,7 @@ int Advanced_Minimax::minimax(TicTacToe *prevBoard, TicTacToe *currBoard, bool i
 }
 
 /**
- * @brief Checks if the current state is a terminal state for the minimax algorithm.
+ * @brief Checks if the game is over.
  *
  * This function evaluates if the current board state meets any terminal conditions that
  * should end the recursion in the minimax algorithm. It also sets the score based on the

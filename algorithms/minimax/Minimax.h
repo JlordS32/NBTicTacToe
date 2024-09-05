@@ -15,12 +15,13 @@ class Minimax
 {
 private:
     // PRIVATE ATTRIBUTES
-    int player;
-    int enemyPlayer;
-    TicTacToe (*grid)[3][3];
+    int player;                 // The player
+int enemyPlayer;                // The enemy player 
+    TicTacToe (*grid)[3][3];    // Pointer to the nineboard tictactoe.
 
     // PRIVATE METHODS
     int minimax(TicTacToe *board, const bool isMaximising, const int depth);
+    bool isTerminalState(TicTacToe *board, const int depth, int score);
     void simulateMove(TicTacToe *board, const bool isMaximising, const int depth, int &bestScore);
 
 public:
@@ -32,9 +33,9 @@ public:
      * A simple version of the minimax algorithm. There's no optimisation
      * or criterias on this one. It's simply just a minimax algorithm. This algorithm
      * won't be effective as it thinks to win a single tictactoe game.
-     * 
+     *
      * I added some randomness into this algorithm especially when the board is empty
-     * so the algorithm can take advantage of the nine board tictactoe and not get 
+     * so the algorithm can take advantage of the nine board tictactoe and not get
      * defeated by Random Player all the time.
      *
      * @param grid A pointer to the nineboard tictactoe. Type TicTacToe (*grid)[3][3].
@@ -112,7 +113,9 @@ void Minimax::useMinimax(int *x, int *y, const Coordinate *currentBoard)
                 }
             }
         }
-    } else {
+    }
+    else
+    {
         Tools::generateRandomMove(&bestX, &bestY);
     }
 
@@ -131,19 +134,10 @@ void Minimax::useMinimax(int *x, int *y, const Coordinate *currentBoard)
  */
 int Minimax::minimax(TicTacToe *board, const bool isMaximising, const int depth)
 {
-    // Check game status
-    int status = board->gameStatus();
-
-    // TERMINAL STATE
-    // Return the score depending on the depth (no of moves)
-    // Maximizing player: Better score the closer to 10
-    // Minimizing player: Better score the closer to -10
-    if (status == 1)
-        return -10 + depth;
-    else if (status == -1)
-        return 10 - depth;
-    else if (status == 2)
-        return 0;
+    int score = 0;
+    if (isTerminalState(board, depth, score)) {
+        return score;
+    }
 
     // COMPUTER
     if (isMaximising)
@@ -165,6 +159,45 @@ int Minimax::minimax(TicTacToe *board, const bool isMaximising, const int depth)
         simulateMove(board, isMaximising, depth, bestScore);
         return bestScore;
     }
+}
+
+/**
+ * @brief Checks if the game is over
+ *
+ * TERMINAL STATE
+ * Return the score depending on the depth (no of moves)
+ * Maximizing player: Better score the closer to 10
+ * Minimizing player: Better score the closer to -10
+ * 
+ * @param board The game board
+ * @param depth The depth of the search
+ * @param score The score of the game
+ * @return `true` if the game is over or
+ * @return `false` if the game is not over
+ */
+bool Minimax::isTerminalState(TicTacToe *board, const int depth, int score)
+{
+    // Check game status
+    int status = board->gameStatus();
+
+    // Check each terminal state
+    if (status == 1)            // Minimising player has won
+    {
+        score = -10 + depth;
+        return true;
+    }
+    else if (status == -1)      // Maximising player has won
+    {
+        score = 10 - depth;
+        return true;
+    }
+    else if (status == 2)       // Draw
+    {
+        score = 0;
+        return true;
+    }
+
+    return false;               // Game is not over
 }
 
 /**
