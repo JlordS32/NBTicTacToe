@@ -31,8 +31,6 @@ public:
 
 	// Getter and setter for the board
 	int getCell(const int x, const int y);
-
-	~TicTacToe(){}
 };
 
 /**

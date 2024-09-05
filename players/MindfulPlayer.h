@@ -16,8 +16,6 @@ public:
 
     string getName() override;
     void getMove(Move *currentPlayer, const Coordinate *currentBoard) override;
-
-    ~MindfulPlayer() {}
 };
 
 string MindfulPlayer::getName() {

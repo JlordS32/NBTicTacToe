@@ -17,8 +17,6 @@ public:
     }
 
     void useAlgorithm(int *x, int *y, const Coordinate *currentBoard) override;
-
-    ~MindfulAlgorithm() {}
 };
 
 /**

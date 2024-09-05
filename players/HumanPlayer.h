@@ -10,8 +10,6 @@ public:
 
     string getName() override;
     void getMove(Move *currentPlayer, const Coordinate *currentBoard) override;
-    
-    ~HumanPlayer() {}
 };
 
 string HumanPlayer::getName() {

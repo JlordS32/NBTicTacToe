@@ -21,8 +21,6 @@ public:
 
     string getName() override;
     void getMove(Move *currentPlayer, const Coordinate *currentBoard) override;
-    
-    ~AdvancedMinimaxPlayer() {}
 };
 
 string AdvancedMinimaxPlayer::getName() {

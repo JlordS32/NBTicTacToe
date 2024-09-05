@@ -27,8 +27,6 @@ public:
      */
     virtual void getMove(Move *currentPlayer, const Coordinate *currentBoard) = 0;
     virtual string getName() = 0;
-
-    ~Player() {}
 };
 
 #endif

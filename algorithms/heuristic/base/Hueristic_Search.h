@@ -53,8 +53,6 @@ public:
     }
 
     virtual void useAlgorithm(int *x, int *y, const Coordinate *currentBoard) = 0;
-
-    ~HeuristicSearch() {}
 };
 
 void HeuristicSearch::resetPositions()
