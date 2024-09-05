@@ -4,6 +4,7 @@
 #include "../../TicTacToe.h"
 #include <limits>
 
+// CONSTANTS
 const int ADVANCED_MINIMAX_BOARD_SIZE = 3;
 const int ADVANCED_MINIMAX_WIN_WEIGHT = 20;
 const int ADVANCED_MINIMAX_DRAW_WEIGHT = 0;
@@ -79,16 +80,16 @@ void Advanced_Minimax::useMinimax(int *x, int *y, const Coordinate *currentBoard
              << endl;
     }
 
-    // Depending on the kind of player is our Minimax algorithm (1 or -1)
-    // The best score will be dependent on the what kind of player.
-    // Player 1 (or player O) will be minimising. It will prioritise the least score.
-    // Player -1 (or player X) will be maximising. It will prioritise the highest score.
-    // We initially set the values to either -infinity or +infinity in respect to the player.
+    // Player -1 will be maximising. It will prioritise the highest score.
+    // Player 1 will be minimising. It will prioritise the least score.
+    // We initially set the values to either -infinity (maximising) or +infinity (minimising) in respect to the player.
     int bestScore = (this->player == -1 ? NEGATIVE_INFINITY : POSITIVE_INFINITY);
     int bestX = -1, bestY = -1;
 
     // Starting board
     TicTacToe *board = &(*grid)[currentBoard->x][currentBoard->y];
+
+    // Root nodes
     for (int row = 0; row < ADVANCED_MINIMAX_BOARD_SIZE; row++)
     {
         for (int col = 0; col < ADVANCED_MINIMAX_BOARD_SIZE; col++)
@@ -97,8 +98,6 @@ void Advanced_Minimax::useMinimax(int *x, int *y, const Coordinate *currentBoard
             {
                 // Simulate the move
                 board->addMove(row, col, this->player);
-                board->setNoOfMoves(board->getNoOfMoves() + 1);
-
                 // Get the next board.
                 TicTacToe *nextBoard = &(*this->grid)[row][col];
 
@@ -115,7 +114,6 @@ void Advanced_Minimax::useMinimax(int *x, int *y, const Coordinate *currentBoard
 
                 // Undo the move
                 board->addMove(row, col, BOARD_EMPTY);
-                board->setNoOfMoves(board->getNoOfMoves() - 1);
 
                 // Depending on the kind of player is our Minimax algorith (1 or -1)
                 // The best move is the one that maximises or minimises the score.
@@ -241,7 +239,6 @@ void Advanced_Minimax::simulateMove(TicTacToe *currBoard, bool isMaximising, int
                 // Determine player and start move simulation.
                 int currPlayer = isMaximising ? -1 : 1;
                 currBoard->addMove(row, col, currPlayer);
-                currBoard->setNoOfMoves(currBoard->getNoOfMoves() + 1);
 
                 TicTacToe *nextBoard = &(*this->grid)[row][col];
 
@@ -250,7 +247,6 @@ void Advanced_Minimax::simulateMove(TicTacToe *currBoard, bool isMaximising, int
 
                 // Undo the move. VERY IMPORTANT!
                 currBoard->addMove(row, col, BOARD_EMPTY);
-                currBoard->setNoOfMoves(currBoard->getNoOfMoves() - 1);
 
                 // Update best score and perform the pruning
                 if (isMaximising)

@@ -31,9 +31,14 @@ public:
  */
 void MindfulAlgorithm::useAlgorithm(int *x, int *y, const Coordinate *currentBoard)
 {
+    // Initially reset the positions first
     resetPositions();
+
+    // Get the current board
     TicTacToe *board = &(*this->grid)[currentBoard->x][currentBoard->y];
 
+    // Unless if the board this player is on an empty board.
+    // The move will be randomly selected.
     if (!Tools::isBoardEmpty(board))
     {
         // SIMULATE ALL MOVES

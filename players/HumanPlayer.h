@@ -42,9 +42,11 @@ void HumanPlayer::getMove(Move *currentPlayer, const Coordinate *currentBoard)
                  << endl;
         }
 
-        // Made a little adjustment so user input is a nicer.
+        // Input for row
         cout << "Enter row position (1-3): ";
         cin >> row;
+
+        // Input for col
         cout << "Enter col position (1-3): ";
         cin >> col;
 

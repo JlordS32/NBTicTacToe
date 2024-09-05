@@ -18,33 +18,37 @@ private:
 	int board[BOARD_SIZE][BOARD_SIZE];
 
 public:
+	/**
+	 * @brief Constructor
+	 *
+	 * This function is called when the object is created. This function is a constructor, since this function does not have any paremeters, it'll be automatically loaded without any parameters.
+	 */
 	TicTacToe();
+
+	// PUBLIC METHODS
 	int noOfMoves;
 	bool isValidMove(const int x, const int y);
-	void addMove(const int x, const int y, const int player);
-	void addMove(const Move *player);
 	int gameStatus();
 
-	// Getter and setter for the number of moves
-	void setNoOfMoves(const int noOfMoves);
-	int getNoOfMoves();
+	// Move setter
+	// +1 overload
+	void addMove(const int x, const int y, const int player);
+	void addMove(const Move *player);
 
-	// Getter and setter for the board
+	// Getter for the board
 	int getCell(const int x, const int y);
+
+	// Getter for the number of moves
+	int getNoOfMoves();
 };
 
-/**
- * @brief Constructor
- *
- * This function is called when the object is created. This function is a constructor, since this function does not have any paremeters, it'll be automatically loaded without any parameters.
- */
 TicTacToe::TicTacToe()
 {
 	// Dynamically allocate all values in the board 0. 0 = empty
 	for (int row = 0; row < 3; row++)
 		for (int col = 0; col < 3; col++)
 			this->board[row][col] = 0;
-	
+
 	// Set the number of moves
 	this->noOfMoves = 0;
 
@@ -76,30 +80,9 @@ int TicTacToe::getCell(int x, int y)
 }
 
 /**
- * @brief Sets the number of moves
- *
- * @param noOfMoves The number of moves
- */
-void TicTacToe::setNoOfMoves(int noOfMoves)
-{
-	this->noOfMoves = noOfMoves;
-}
-
-/**
- * @brief Gets the number of moves
- *
- * @return The number of moves
- */
-int TicTacToe::getNoOfMoves()
-{
-	return this->noOfMoves;
-}
-
-
-/**
  * @brief Checks if a move is valid
  *
- * Condition: x and y is between 0 and 2 (inclusive) and the position according 
+ * Condition: x and y is between 0 and 2 (inclusive) and the position according
  * to board is actually empty (0).
  *
  * @param x The x value corresponding to the board.
@@ -119,17 +102,32 @@ bool TicTacToe::isValidMove(int x, int y)
  */
 void TicTacToe::addMove(int x, int y, int player)
 {
+	// We reduce the number of moves if the move is gonna be undone.
+	// This is purpose made for the algorithms.
+	if (player == 0)
+	{
+		this->noOfMoves--;
+	}
+	else
+	{
+		this->noOfMoves++;
+	}
+
+	// Add move
 	this->board[x][y] = player;
 }
 
 /**
  * @brief Adds a move to the board
- * 
+ *
  * Overlodded version. Takes a Move struct instead.
- * 
+ *
  */
 void TicTacToe::addMove(const Move *player)
 {
+	this->noOfMoves++;
+
+	// Add move
 	this->board[player->x][player->y] = player->currentPlayer;
 }
 
@@ -168,6 +166,10 @@ int TicTacToe::gameStatus()
 	}
 
 	return 0; // The game is still ongoing.
+}
+
+int TicTacToe::getNoOfMoves() {
+	return this->noOfMoves;
 }
 
 #endif

@@ -69,7 +69,6 @@ void PlayerManager::handleMove(Move *currentPlayer, int *gameStatus)
 
     // Update the board object
     currentSubBoard->addMove(currentPlayer);
-    currentSubBoard->setNoOfMoves(currentSubBoard->getNoOfMoves() + 1);
 
     // Update the game status
     *gameStatus = currentSubBoard->gameStatus();

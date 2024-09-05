@@ -26,10 +26,10 @@ public:
  */
 void SmartAlgorithm::useAlgorithm(int *x, int *y, const Coordinate *currentBoard)
 {
+    // Initially reset the positions first
     resetPositions();
 
-    // EVALUATE THE BOARD
-    int currScore = 0;
+    // Get the current board
     TicTacToe *board = &(*this->grid)[currentBoard->x][currentBoard->y];
 
     // SIMULATE ALL MOVES

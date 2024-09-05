@@ -14,6 +14,7 @@ public:
     static void generateRandomMove(int *x, int *y);
     static char getBorderSymbol(bool condition, char defaultChar, char selectedChar);
     static int getTotalMoves(TicTacToe (*grid)[TOOLS_BOARD_SIZE][TOOLS_BOARD_SIZE]);
+    static bool isInt(const string str);
 };
 
 /**
@@ -138,6 +139,16 @@ int Tools::getTotalMoves(TicTacToe (*grid)[TOOLS_BOARD_SIZE][TOOLS_BOARD_SIZE])
     }
 
     return totalMoves;
+}
+
+bool Tools::isInt(const string str) {
+    for (int i = 0; i < str.length(); i++) {
+        if (isdigit(str[i]) == false) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 #endif

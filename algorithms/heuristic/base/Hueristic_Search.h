@@ -27,6 +27,7 @@ protected:
     void checkCross(TicTacToe *board);
     void simulateMove(TicTacToe *board, int arr[HEURISTIC_NUM_POSITIONS][2], int &currScore);
     void evaluateScore(int currScore, int x, int y);
+    void weighScore(TicTacToe *nextBoard, int &currScore);
 
 public:
     /**
@@ -82,10 +83,12 @@ void HeuristicSearch::checkCentre(TicTacToe *board)
     // Check if the centre is available and prioritize it
     if (board->getCell(centreX, centreY) == 0)
     {
-        TicTacToe *nextBoard = &(*grid)[centreX][centreY];
-        int playerEnemyMoves = Tools::checkValues(nextBoard, this->enemyPlayer);
+        if (this->weighByEnemyMoves)
+        {
+            TicTacToe *nextBoard = &(*grid)[centreX][centreY];
 
-        currScore -= HEURISTIC_MOVE_WEIGHT * playerEnemyMoves;
+            weighScore(nextBoard, currScore);
+        }
 
         evaluateScore(currScore, centreX, centreY);
     }
@@ -126,8 +129,8 @@ void HeuristicSearch::simulateMove(TicTacToe *board, int arr[HEURISTIC_NUM_POSIT
 {
     // Evaluate corners and prioritize the best one
     for (int i = 0; i < HEURISTIC_NUM_POSITIONS; i++)
-    {
-        int noOfPlayerMovesNextBoard = 0;
+    { 
+        // Get the coordinates
         int posX = arr[i][0];
         int posY = arr[i][1];
 
@@ -145,14 +148,13 @@ void HeuristicSearch::simulateMove(TicTacToe *board, int arr[HEURISTIC_NUM_POSIT
             else if (status == this->enemyPlayer)
                 currScore -= HEURISTIC_WIN_WEIGHT;
 
+            // Depending if the caller wants to weigh by enemy moves, this statement
+            // will be ran.
             if (this->weighByEnemyMoves)
             {
                 // Check the number of enemy moves on the next board.
                 TicTacToe *nextBoard = &(*grid)[posX][posY];
-                noOfPlayerMovesNextBoard = Tools::checkValues(nextBoard, this->enemyPlayer);
-
-                // We weight the score by the number of enemy moves.
-                currScore -= noOfPlayerMovesNextBoard * HEURISTIC_MOVE_WEIGHT;
+                weighScore(nextBoard, currScore);
             }
 
             // Undo the move
@@ -164,6 +166,21 @@ void HeuristicSearch::simulateMove(TicTacToe *board, int arr[HEURISTIC_NUM_POSIT
             currScore = 10;
         }
     }
+}
+
+/**
+ * @brief Function to weigh the score of the next board
+ *
+ * @param nextBoard A pointer to the next board.
+ * @param currScore A reference to the current score.
+ */
+void HeuristicSearch::weighScore(TicTacToe *nextBoard, int &currScore)
+{
+    // Check the number of enemy moves on the next board.
+    int noOfPlayerMovesNextBoard = Tools::checkValues(nextBoard, this->enemyPlayer);
+
+    // We weight the score by the number of enemy moves.
+    currScore -= noOfPlayerMovesNextBoard * HEURISTIC_MOVE_WEIGHT;
 }
 
 #endif
