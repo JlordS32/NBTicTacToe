@@ -21,7 +21,7 @@ private:
 
     // PRIVATE METHODS
     int minimax(TicTacToe *board, const bool isMaximising, const int depth);
-    void simulateMove(TicTacToe *board, const bool isMaximising, int &bestScore, const int depth);
+    void simulateMove(TicTacToe *board, const bool isMaximising, const int depth, int &bestScore);
 
 public:
     void useMinimax(int *x, int *y, const Coordinate *currentBoard);
@@ -152,7 +152,7 @@ int Minimax::minimax(TicTacToe *board, const bool isMaximising, const int depth)
         int bestScore = NEGATIVE_INFINITY;
 
         // Simulate all possible moves, or generate moves.
-        simulateMove(board, isMaximising, bestScore, depth);
+        simulateMove(board, isMaximising, depth, bestScore);
         return bestScore;
     }
     // PLAYER
@@ -162,7 +162,7 @@ int Minimax::minimax(TicTacToe *board, const bool isMaximising, const int depth)
         int bestScore = POSITIVE_INFINITY;
 
         // Simulate all possible moves
-        simulateMove(board, isMaximising, bestScore, depth);
+        simulateMove(board, isMaximising, depth, bestScore);
         return bestScore;
     }
 }
@@ -175,7 +175,7 @@ int Minimax::minimax(TicTacToe *board, const bool isMaximising, const int depth)
  * @param bestScore The best score
  * @param depth The depth of the search
  */
-void Minimax::simulateMove(TicTacToe *board, const bool isMaximising, int &bestScore, const int depth)
+void Minimax::simulateMove(TicTacToe *board, const bool isMaximising, const int depth, int &bestScore)
 {
     // Simulate all possible moves
     for (int row = 0; row < MINIMAX_BOARD_SIZE; row++)

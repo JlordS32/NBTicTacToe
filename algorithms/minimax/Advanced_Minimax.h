@@ -28,8 +28,9 @@ private:
 
     // PRIVATE METHODS
     int minimax(TicTacToe *prevBoard, TicTacToe *currBoard, bool isMaximising, int depth, int alpha, int beta);
-    int getTotalMoves();
+    bool isTerminalState(TicTacToe *prevBoard, TicTacToe *currBoard, int depth, int &score);
     void simulateMove(TicTacToe *currBoard, bool isMaximising, int depth, int alpha, int beta, int &bestScore);
+    int getTotalMoves();
 
 public:
     void useMinimax(int *x, int *y, const Coordinate *currentBoard);
@@ -161,41 +162,11 @@ void Advanced_Minimax::useMinimax(int *x, int *y, const Coordinate *currentBoard
  */
 int Advanced_Minimax::minimax(TicTacToe *prevBoard, TicTacToe *currBoard, bool isMaximising, int depth, int alpha, int beta)
 {
-    // Get status on the previous to check if it is a terminal state.
-    int prevBoardStatus = prevBoard->gameStatus();
-
-    // Get the number of enemy occurences. To weigh the score.
-    // Best moves will be the ones that have less enemy occurences on the current board.
-    int noEnemyOccurences = Tools::checkValues(currBoard, 1);
-
-    // TERMINATE STATE
-    // -----------------
-    // These are the terminal states to terminate the recursive nature of this algorithm.
-    // 1. Minimising player wins
-    // 2. Maximising player wins
-    // 3. If the previous board is full and was a draw. Terminate all simulations. No simulation is needed
-    // for this state since there was only one available position.
-    // 4. Game is a draw. No more moves can be made.
-    // 5. Depth limit reached. No more moves can be made.
-    if (prevBoardStatus == -1)
-    {
-        return ADVANCED_MINIMAX_WIN_WEIGHT - (depth + noEnemyOccurences);
-    }
-    if (prevBoardStatus == 1)
-    {
-        return -ADVANCED_MINIMAX_WIN_WEIGHT + depth + noEnemyOccurences;
-    }
-    if (prevBoardStatus == 2)
-    {
-        return 0;
-    }
-    if (getTotalMoves() == ADVANCED_MINIMAX_BOARD_FULL)
-    {
-        return ADVANCED_MINIMAX_DRAW_WEIGHT - noEnemyOccurences;
-    }
-    if (depth >= ADVANCED_MINIMAX_DEPTH_LIMIT)
-    {
-        return ADVANCED_MINIMAX_DRAW_WEIGHT - noEnemyOccurences;
+    // TERMINAL STATE
+    // --------------
+    int score = 0;
+    if (isTerminalState(prevBoard, currBoard, depth, score)) {
+        return score;
     }
 
     // SIMULATE MOVES
@@ -213,6 +184,63 @@ int Advanced_Minimax::minimax(TicTacToe *prevBoard, TicTacToe *currBoard, bool i
         simulateMove(currBoard, isMaximising, depth, alpha, beta, bestScore);
         return bestScore;
     }
+}
+
+/**
+ * @brief Checks if the current state is a terminal state for the minimax algorithm.
+ *
+ * This function evaluates if the current board state meets any terminal conditions that
+ * should end the recursion in the minimax algorithm. It also sets the score based on the
+ * terminal state.
+ *
+ * @param prevBoard A pointer to the previous TicTacToe board.
+ * @param currBoard A pointer to the current TicTacToe board being evaluated.
+ * @param depth The current depth of the recursive search tree.
+ * @param score A reference to an integer where the score for the terminal state will be set.
+ * @return `true` if the current state is a terminal state, `false` otherwise.
+ *
+ * Terminal states include:
+ * 1. The minimizing player has won.
+ * 2. The maximizing player has won.
+ * 3. The previous board is full and was a draw, meaning no more moves can be made.
+ * 4. The game is a draw and no more moves can be made.
+ * 5. The depth limit of the search tree has been reached.
+ */
+bool Advanced_Minimax::isTerminalState(TicTacToe *prevBoard, TicTacToe *currBoard, int depth, int &score) {
+    // Get status on the previous board to check if it is a terminal state.
+    int prevBoardStatus = prevBoard->gameStatus();
+
+    // Get the number of enemy occurrences to weigh the score.
+    int noEnemyOccurrences = Tools::checkValues(currBoard, 1);
+
+    // Check each terminal state.
+    if (prevBoardStatus == -1)
+    {
+        score = ADVANCED_MINIMAX_WIN_WEIGHT - (depth + noEnemyOccurrences);
+        return true;
+    }
+    if (prevBoardStatus == 1)
+    {
+        score = -ADVANCED_MINIMAX_WIN_WEIGHT + depth + noEnemyOccurrences;
+        return true;
+    }
+    if (prevBoardStatus == 2)
+    {
+        score = 0;
+        return true;
+    }
+    if (getTotalMoves() == ADVANCED_MINIMAX_BOARD_FULL)
+    {
+        score = ADVANCED_MINIMAX_DRAW_WEIGHT - noEnemyOccurrences;
+        return true;
+    }
+    if (depth >= ADVANCED_MINIMAX_DEPTH_LIMIT)
+    {
+        score = ADVANCED_MINIMAX_DRAW_WEIGHT - noEnemyOccurrences;
+        return true;
+    }
+
+    return false;
 }
 
 /**
