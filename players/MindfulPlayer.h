@@ -18,7 +18,8 @@ public:
     void getMove(Move *currentPlayer, const Coordinate *currentBoard) override;
 };
 
-string MindfulPlayer::getName() {
+string MindfulPlayer::getName()
+{
     return "Mindful";
 }
 
@@ -31,7 +32,7 @@ string MindfulPlayer::getName() {
  */
 void MindfulPlayer::getMove(Move *currentPlayer, const Coordinate *currentBoard)
 {
-     // Initialise temporary variables to contain the best move.
+    // Initialise temporary variables to contain the best move.
     int bestX = -1, bestY = -1;
 
     // Pass it to the heuristic search algorithm.
