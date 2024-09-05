@@ -4,6 +4,10 @@ Hello guys, welcome to this repo. This repo is for a game called Nine Board TicT
 for the assessment in Western Sydney University. It's just a simple project that simulates
 a nine board tictactoe game in the terminal with some of the following features.
 
+## Features
+
+---
+
 - Polymorphism, Inheritance, Abstraction and Encapsulation
 - OOP concepts
 - 6 different players.
