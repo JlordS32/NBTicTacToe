@@ -104,8 +104,10 @@ void NBGame::gameLoop()
 
 void NBGame::handleMove()
 {
+	// Display current player
 	playerManager.displayCurrentPlayer(this->gameState.currentPlayer);
 
+	// Display the number of turns and the last move after the first move.
 	if (this->gameState.currentPlayer.x != -1 && this->gameState.currentPlayer.y != -1)
 	{
 		cout << "Number of turns: " << this->turnCounter << endl;
@@ -120,7 +122,7 @@ void NBGame::handleMove()
 void NBGame::switchBoard()
 {
 	// Hard coded statement
-	// Once the game is over there's no need TO switch board or display board.
+	// Once the game is over there's no need To switch board or display board.
 	if (this->gameState.status == RUNNING)
 	{
 		boardManager.displayLastBoardPos();

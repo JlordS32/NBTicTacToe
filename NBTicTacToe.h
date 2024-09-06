@@ -47,24 +47,26 @@ public:
  */
 void NBTicTacToe::displayBoards(TicTacToe (*grid)[3][3], const Coordinate currentBoard)
 {
-    // Loop 3 times for each row in the grid
+    // First for loop: Row
     for (int row = 0; row < GRID_SIZE; row++)
     {
         // Print the horizontal line for the top bit of the each row.
         printHorizontalLine(row, currentBoard);
 
-        // Loop 3 times again, this is a setup for the inner row of each board in the grid.
+        // Second for loop: Inner row (the row inside Board x, y)
         for (int innerRow = 0; innerRow < GRID_SIZE; innerRow++)
         {
             char borderSymbol;
 
+            // Third for loop: Setup for the column of the board.
             for (int col = 0; col < GRID_SIZE; col++)
             {
-                // Conditionally get the borderSymbol. If we're in the selected zone of x and y, we get * for the border symbol.
+                // Conditionally get the borderSymbol. 
+                // If we're in the selected zone of x and y, we get * for the border symbol.
                 bool condition = row == currentBoard.x && col == currentBoard.y;
                 char borderSymbol = Tools::getBorderSymbol(condition, this->border->defaultSymbol[1], this->border->selectedSymbol[1]);
 
-                // Get board to print.
+                // Get current board.
                 TicTacToe *board = &(*grid)[row][col];
 
                 // Print each cell in the inner row.
@@ -167,6 +169,7 @@ void NBTicTacToe::printCell(TicTacToe *board, const int row)
     // Printing the current row and passing the inner row.
     char symbol = ' ';
 
+    // Render each value in the cell.
     for (int i = 0; i < 3; i++)
     {
         if (board->getCell(row, i) == 1)
