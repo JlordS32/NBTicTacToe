@@ -2,7 +2,7 @@
 #define MINDFUL_ALGORITHM_H
 
 #include "../../../helpers/Tools.h"
-#include "../base/Hueristic_Search.h"
+#include "../base/Heuristic_Search.h"
 #include <cstdlib>
 #include <ctime>
 

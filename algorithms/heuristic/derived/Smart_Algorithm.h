@@ -1,7 +1,7 @@
 #ifndef SMART_ALGORITHM_H
 #define SMART_ALGORITHM_H
 
-#include "../base/Hueristic_Search.h"
+#include "../base/Heuristic_Search.h"
 
 class SmartAlgorithm : public HeuristicSearch
 {

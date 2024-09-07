@@ -8,6 +8,9 @@ const int HEURISTIC_WIN_WEIGHT = 10;
 const int HEURISTIC_INIAL_SCORE = 10;
 const int HEURISTIC_NUM_POSITIONS = 4;
 
+const int HEURISTIC_FIRST_PLAYER = 1;
+const int HEURISTIC_SECOND_PLAYER = -1;
+
 class HeuristicSearch
 {
 protected:
@@ -45,7 +48,7 @@ public:
     HeuristicSearch(TicTacToe (*grid)[3][3], int player, bool weighByEnemyMoves = false)
     {
         this->player = player;
-        this->enemyPlayer = (player == 1) ? -1 : 1;
+        this->enemyPlayer = (player == 1) ? HEURISTIC_SECOND_PLAYER : HEURISTIC_FIRST_PLAYER;
         this->bestScore = -1;
         this->bestX = -1;
         this->bestY = -1;
