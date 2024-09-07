@@ -44,26 +44,26 @@ public:
 
 TicTacToe::TicTacToe()
 {
-	// Dynamically allocate all values in the board 0. 0 = empty
-	for (int row = 0; row < 3; row++)
-		for (int col = 0; col < 3; col++)
-			this->board[row][col] = 0;
+	// // Dynamically allocate all values in the board 0. 0 = empty
+	// for (int row = 0; row < 3; row++)
+	// 	for (int col = 0; col < 3; col++)
+	// 		this->board[row][col] = 0;
 
-	// Set the number of moves
-	this->noOfMoves = 0;
+	// // Set the number of moves
+	// this->noOfMoves = 0;
 
-	// // Uncomment to test draw states and comment the above code.
-	// board[0][0] = 0;
-	// board[0][1] = 1;
-	// board[0][2] = -1;
-	// board[1][0] = -1;
-	// board[1][1] = -1;
-	// board[1][2] = 1;
-	// board[2][0] = 1;
-	// board[2][1] = -1;
-	// board[2][2] = 1;
+	// Uncomment to test draw states and comment the above code.
+	board[0][0] = 0;
+	board[0][1] = 1;
+	board[0][2] = -1;
+	board[1][0] = -1;
+	board[1][1] = -1;
+	board[1][2] = 1;
+	board[2][0] = 1;
+	board[2][1] = -1;
+	board[2][2] = 1;
 
-	// this->noOfMoves = 8;
+	this->noOfMoves = 8;
 }
 
 /**

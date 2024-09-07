@@ -19,17 +19,17 @@ public:
      *
      * Takes a pointer to the coordinate of the current board.
      */
-    BoardManager(TicTacToe (*grid)[3][3], Coordinate *currentBoard, SymbolManager *symbolManager) : nbTicTacToe(symbolManager->getPlayerSymbol(), symbolManager->getBorderSymbol())
-    {
-        this->grid = grid;
-        this->currentBoard = currentBoard;
-    }
+    BoardManager(TicTacToe (*grid)[3][3], Coordinate *currentBoard, SymbolManager *symbolManager)
+        : nbTicTacToe(symbolManager->getPlayerSymbol(), symbolManager->getBorderSymbol()),
+          currentBoard(currentBoard),
+          grid(grid) {}
 
     // PUBLIC METHODS
     void switchBoard(const Move currentPlayer);
     void displayBoard();
     void displayCurrentBoardPos();
     void displayLastBoardPos();
+    void setRandomBoard();
 };
 
 /**
@@ -75,25 +75,42 @@ void BoardManager::switchBoard(const Move currentPlayer)
     int boardX = currentPlayer.x;
     int boardY = currentPlayer.y;
 
-    // Check if the next board to be switched is full
-    TicTacToe *board = &(*grid)[boardX][boardY];
-    bool isBoardFull = Tools::isBoardFull(board);
+    // Check if the board is full
+    TicTacToe *board = &(*this->grid)[this->currentBoard->x][this->currentBoard->y];
+    if (Tools::isBoardFull(board))
+    {
+        this->setRandomBoard();
+    }
+    // Otherwise the next board will based on the player move.
+    else
+    {
+        this->currentBoard->x = boardX;
+        this->currentBoard->y = boardY;
+    }
+}
+
+void BoardManager::setRandomBoard()
+{
+    int boardX, boardY;
+    bool isBoardFull = true;
 
     while (isBoardFull)
     {
-        // Generate random coordinates
+        // Generate random move
         Tools::generateRandomMove(&boardX, &boardY);
 
-        // Update current board
-        board = &(*grid)[boardX][boardY];
-
-        // Check if the next board to be switched is full
+        // Get board and evaluate if the board is full.
+        TicTacToe *board = &(*this->grid)[boardX][boardY];
         isBoardFull = Tools::isBoardFull(board);
-    }
 
-    // Assign new board coordinates if valid.
-    this->currentBoard->x = boardX;
-    this->currentBoard->y = boardY;
+        // If the board is not full, assign the coords.
+        // This loop should then terminate.
+        if (!isBoardFull)
+        {
+            this->currentBoard->x = boardX;
+            this->currentBoard->y = boardY;
+        }
+    }
 }
 
 #endif
