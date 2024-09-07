@@ -41,8 +41,8 @@ public:
     void handleMove(Move *currentPlayer, int *gameStatus);
     void switchPlayer(Move *player);
     void initializePlayers(const int playerOne, const int playerTwo);
-    void displayCurrentPlayer(const Move player);
-    void checkGameStatus(const int gameStatus);
+    void displayCurrentPlayer(Move player) const;
+    void checkGameStatus(const int gameStatus) const;
 
     // Destructor
     ~PlayerManager()
@@ -157,7 +157,7 @@ void PlayerManager::switchPlayer(Move *player)
  *
  * @param player The player symbol
  */
-void PlayerManager::displayCurrentPlayer(const Move player)
+void PlayerManager::displayCurrentPlayer(Move player) const
 {
     char symbol = player.currentPlayer == 1 ? this->playerSymbol->playerOne : this->playerSymbol->playerTwo;
     int currPlayer = player.currentPlayer == 1 ? 0 : 1;
@@ -181,7 +181,7 @@ void PlayerManager::displayCurrentPlayer(const Move player)
  *
  * @param gameStatus
  */
-void PlayerManager::checkGameStatus(const int gameStatus)
+void PlayerManager::checkGameStatus(int gameStatus) const
 {
     char symbol = gameStatus == 1 ? this->playerSymbol->playerOne : this->playerSymbol->playerTwo;
     int currPlayer = gameStatus == 1 ? 0 : 1;
