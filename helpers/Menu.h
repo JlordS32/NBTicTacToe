@@ -46,6 +46,8 @@ int Menu::displayPlayerSelection(int player)
     int choice = 0;
     char symbol = (player == 1) ? this->playerSymbol->playerOne : this->playerSymbol->playerTwo;
 
+    // DISPLAY THE PLAYER SELECTION MENU
+    // --------------------------------
     cout << "SELECT PLAYER: " << symbol << endl
          << endl;
     cout << "1. Human Player" << endl;
@@ -56,13 +58,16 @@ int Menu::displayPlayerSelection(int player)
     cout << "6. Advanced Minimax Player:" << endl
          << endl;
 
-    do
-    {
-        cout << "Enter your choice (1-6): ";
 
-        cin >> choice;
+    // QUERY USER FOR CHOICE
+    // ---------------------
+    cout << "Enter your choice (1-6): ";
 
-    } while (choice < 1 || choice > 6);
+    while(!(cin >> choice) && (choice < 1) || (choice > 6)) {
+        cout << "Please enter a number (1-6): ";    // Display input again
+        cin.clear();                // Clear previous input
+        cin.ignore(1000, '\n');     // Discard previous input
+    }
 
     cout << endl;
 
