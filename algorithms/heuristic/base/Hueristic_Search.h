@@ -26,8 +26,8 @@ protected:
     void checkCorners(TicTacToe *board);
     void checkCross(TicTacToe *board);
     void simulateMove(TicTacToe *board, int arr[HEURISTIC_NUM_POSITIONS][2], int &currScore);
-    void evaluateScore(int currScore, int x, int y);
-    void weighScore(TicTacToe *nextBoard, int &currScore);
+    void evaluateScore(const int currScore, const int x, const int y);
+    void weighScore(TicTacToe *nextBoard, int &currScore) const;
 
 public:
     /**
@@ -63,7 +63,7 @@ void HeuristicSearch::resetPositions()
     this->bestY = -1;
 }
 
-void HeuristicSearch::evaluateScore(int currScore, int x, int y)
+void HeuristicSearch::evaluateScore(const int currScore, const int x, const int y)
 {
     if (currScore > this->bestScore)
     {
@@ -129,7 +129,7 @@ void HeuristicSearch::simulateMove(TicTacToe *board, int arr[HEURISTIC_NUM_POSIT
 {
     // Evaluate corners and prioritize the best one
     for (int i = 0; i < HEURISTIC_NUM_POSITIONS; i++)
-    { 
+    {
         // Get the coordinates
         int posX = arr[i][0];
         int posY = arr[i][1];
@@ -163,7 +163,7 @@ void HeuristicSearch::simulateMove(TicTacToe *board, int arr[HEURISTIC_NUM_POSIT
             evaluateScore(currScore, posX, posY);
 
             // Reset score
-            currScore = 10;
+            currScore = HEURISTIC_INIAL_SCORE;
         }
     }
 }
@@ -174,7 +174,7 @@ void HeuristicSearch::simulateMove(TicTacToe *board, int arr[HEURISTIC_NUM_POSIT
  * @param nextBoard A pointer to the next board.
  * @param currScore A reference to the current score.
  */
-void HeuristicSearch::weighScore(TicTacToe *nextBoard, int &currScore)
+void HeuristicSearch::weighScore(TicTacToe *nextBoard, int &currScore) const
 {
     // Check the number of enemy moves on the next board.
     int noOfPlayerMovesNextBoard = Tools::checkValues(nextBoard, this->enemyPlayer);
