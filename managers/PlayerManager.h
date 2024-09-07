@@ -32,10 +32,10 @@ private:
 
 public:
     PlayerManager(TicTacToe (*grid)[3][3], Coordinate *currentBoard, SymbolManager *symbolManager)
+        : grid(grid),
+          currentBoard(currentBoard),
+          playerSymbol(symbolManager->getPlayerSymbol())
     {
-        this->grid = grid;
-        this->currentBoard = currentBoard;
-        this->playerSymbol = symbolManager->getPlayerSymbol();
     }
 
     void handleMove(Move *currentPlayer, int *gameStatus);

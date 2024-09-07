@@ -14,25 +14,27 @@ struct PlayerSymbol
     char playerTwo;
     char emptySymbol;
 
-    PlayerSymbol() {
-        this->playerOne = DEFAULT_PLAYER_SYMBOL[0];
-        this->playerTwo = DEFAULT_PLAYER_SYMBOL[1];
-        this->emptySymbol = ' ';
+    PlayerSymbol()
+        : playerOne(DEFAULT_PLAYER_SYMBOL[0]),
+          playerTwo(DEFAULT_PLAYER_SYMBOL[1]),
+          emptySymbol(' ')
+    {
     }
 
-    // ADDITIONAL OVERLOADED CONSTRUCTORS. 
+    // ADDITIONAL OVERLOADED CONSTRUCTORS.
     // -----------------------------------
 
-    PlayerSymbol(char playerOne, char playerTwo, char emptySymbol = ' ') {
-        this->playerOne = playerOne;
-        this->playerTwo = playerTwo;
-        this->emptySymbol = emptySymbol;
+    PlayerSymbol(char playerOne, char playerTwo, char emptySymbol = ' ')
+        : playerOne(playerOne),
+          playerTwo(playerTwo),
+          emptySymbol(emptySymbol)
+    {
     }
-
-    PlayerSymbol(char playerSymbol[2], char emptySymbol = ' ') {
-        this->playerOne = playerSymbol[0];
-        this->playerTwo = playerSymbol[1];
-        this->emptySymbol = emptySymbol;
+    PlayerSymbol(char playerSymbol[2], char emptySymbol = ' ') :
+        playerOne(playerSymbol[0]),
+        playerTwo(playerSymbol[1]),
+        emptySymbol(emptySymbol)
+    {
     }
 };
 

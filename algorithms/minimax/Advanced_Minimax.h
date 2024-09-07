@@ -45,9 +45,9 @@ public:
      * @param player The player. Either 1 or -1
      */
     Advanced_Minimax(TicTacToe (*grid)[3][3], int player)
+        : grid(grid),
+          player(player)
     {
-        this->grid = grid;
-        this->player = player;
         this->enemyPlayer = player == 1 ? -1 : 1;
     }
 };
@@ -165,7 +165,8 @@ int Advanced_Minimax::minimax(TicTacToe *prevBoard, TicTacToe *currBoard, bool i
     // TERMINAL STATE
     // --------------
     int score = 0;
-    if (isTerminalState(prevBoard, currBoard, depth, score)) {
+    if (isTerminalState(prevBoard, currBoard, depth, score))
+    {
         return score;
     }
 
@@ -206,7 +207,8 @@ int Advanced_Minimax::minimax(TicTacToe *prevBoard, TicTacToe *currBoard, bool i
  * 4. The game is a draw and no more moves can be made.
  * 5. The depth limit of the search tree has been reached.
  */
-bool Advanced_Minimax::isTerminalState(TicTacToe *prevBoard, TicTacToe *currBoard, int depth, int &score) {
+bool Advanced_Minimax::isTerminalState(TicTacToe *prevBoard, TicTacToe *currBoard, int depth, int &score)
+{
     // Get status on the previous board to check if it is a terminal state.
     int prevBoardStatus = prevBoard->gameStatus();
 

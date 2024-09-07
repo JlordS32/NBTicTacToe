@@ -42,10 +42,10 @@ public:
      * @param player The player. Either 1 or -1
      */
     Minimax(TicTacToe (*grid)[3][3], int player)
+        : grid(grid),
+          player(player)
     {
         srand(time(0));
-        this->grid = grid;
-        this->player = player;
         this->enemyPlayer = player == 1 ? -1 : 1;
     }
 };

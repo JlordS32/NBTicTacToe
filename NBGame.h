@@ -27,12 +27,16 @@ public:
 	 *
 	 * Going forward, the board position will be determined based on the player's turn.
 	 */
-	NBGame() : playerManager(&grid, &currentBoard, &symbolManager),
-			   gameState(RUNNING, PLAYER_X),
-			   boardManager(&grid, &currentBoard, &symbolManager),
-			   menu(&symbolManager)
+	NBGame()
+		: grid(),
+		  currentBoard(),
+		  symbolManager(),
+		  playerManager(&grid, &currentBoard, &symbolManager),
+		  boardManager(&grid, &currentBoard, &symbolManager),
+		  menu(&symbolManager),
+		  gameState(RUNNING, PLAYER_X),
+		  turnCounter(0)
 	{
-		this->turnCounter = 0;
 	}
 
 	void play();

@@ -16,12 +16,12 @@ public:
 
     // Overloaded constructor for custom symbols
     SymbolManager(BorderSymbol borderSymbol, PlayerSymbol playerSymbol)
+        : borderSymbol(borderSymbol),
+          playerSymbol(playerSymbol)
     {
-        this->borderSymbol = borderSymbol;
-        this->playerSymbol = playerSymbol;
     }
 
-    PlayerSymbol* getPlayerSymbol()
+    PlayerSymbol *getPlayerSymbol()
     {
         return &this->playerSymbol;
     }
@@ -30,7 +30,7 @@ public:
         this->playerSymbol = playerSymbol;
     }
 
-    BorderSymbol* getBorderSymbol()
+    BorderSymbol *getBorderSymbol()
     {
         return &this->borderSymbol;
     }

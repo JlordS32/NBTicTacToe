@@ -13,14 +13,16 @@ struct Coordinate
     int x;
     int y;
 
-    Coordinate() {
+    Coordinate()
+    {
         srand(time(0));
         Tools::generateRandomMove(&this->x, &this->y);
     }
 
-    Coordinate(int x, int y) {
-        this->x = x;
-        this->y = y;
+    Coordinate(int x, int y)
+        : x(x),
+          y(y)
+    {
     }
 };
 

@@ -13,9 +13,7 @@ protected:
     TicTacToe (*grid)[3][3];
 
 public:
-    Player(TicTacToe (*grid)[3][3]) {
-        this->grid = grid;
-    }
+    Player(TicTacToe (*grid)[3][3]) : grid(grid) {}
 
     /**
      * @brief Base function for the abstract class Player

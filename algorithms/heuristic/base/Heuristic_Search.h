@@ -46,14 +46,14 @@ public:
      * @param grid A pointer to the board
      */
     HeuristicSearch(TicTacToe (*grid)[3][3], int player, bool weighByEnemyMoves = false)
+        : player(player),
+          grid(grid),
+          bestScore(-1),
+          bestX(-1),
+          bestY(-1),
+          weighByEnemyMoves(weighByEnemyMoves)
     {
-        this->player = player;
         this->enemyPlayer = (player == 1) ? HEURISTIC_SECOND_PLAYER : HEURISTIC_FIRST_PLAYER;
-        this->bestScore = -1;
-        this->bestX = -1;
-        this->bestY = -1;
-        this->grid = grid;
-        this->weighByEnemyMoves = weighByEnemyMoves;
     }
 
     virtual void useAlgorithm(int *x, int *y, const Coordinate *currentBoard) = 0;

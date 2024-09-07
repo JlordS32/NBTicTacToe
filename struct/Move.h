@@ -3,7 +3,7 @@
 
 /**
  * @brief Struct to manage player movements.
- * 
+ *
  * 1 = PLAYER O
  * -1 = PLAYER X
  */
@@ -13,10 +13,11 @@ struct Move
     int y;
     int currentPlayer;
 
-    Move(int x, int y, int player) {
-        this->x = x;
-        this->y = y;
-        this->currentPlayer = player;
+    Move(int x, int y, int player)
+        : x(x),
+          y(y),
+          currentPlayer(player)
+    {
     }
 };
 

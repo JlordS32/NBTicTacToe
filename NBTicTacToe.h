@@ -28,9 +28,9 @@ private:
 public:
     // CONSTRUCTORS
     NBTicTacToe(PlayerSymbol *playerSymbol, BorderSymbol *border)
+        : playerSymbol(playerSymbol),
+          border(border)
     {
-        this->playerSymbol = playerSymbol;
-        this->border = border;
     }
 
     // PUBLIC METHODS
@@ -61,7 +61,7 @@ void NBTicTacToe::displayBoards(TicTacToe (*grid)[3][3], const Coordinate curren
             // Third for loop: Setup for the column of the board.
             for (int col = 0; col < GRID_SIZE; col++)
             {
-                // Conditionally get the borderSymbol. 
+                // Conditionally get the borderSymbol.
                 // If we're in the selected zone of x and y, we get * for the border symbol.
                 bool condition = row == currentBoard.x && col == currentBoard.y;
                 char borderSymbol = Tools::getBorderSymbol(condition, this->border->defaultSymbol[1], this->border->selectedSymbol[1]);
