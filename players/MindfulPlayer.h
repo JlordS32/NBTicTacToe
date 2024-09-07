@@ -15,7 +15,7 @@ public:
     MindfulPlayer(TicTacToe (*grid)[3][3], int player) : Player(grid), mindfulAlgorithm(grid, player) {}
 
     string getName() override;
-    void getMove(Move *currentPlayer, const Coordinate *currentBoard) override;
+    void getMove(Move *currentPlayer, const Coordinate *currentBoard) override; 
 };
 
 string MindfulPlayer::getName()

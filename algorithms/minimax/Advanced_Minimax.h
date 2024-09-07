@@ -9,8 +9,8 @@ const int ADVANCED_MINIMAX_BOARD_SIZE = 3;
 const int ADVANCED_MINIMAX_WIN_WEIGHT = 20;
 const int ADVANCED_MINIMAX_DRAW_WEIGHT = 0;
 const int BOARD_EMPTY = 0;
-const int POSITIVE_INFINITY = numeric_limits<int>::max();
-const int NEGATIVE_INFINITY = numeric_limits<int>::min();
+const int POSITIVE_INFINITY = std::numeric_limits<int>::max();
+const int NEGATIVE_INFINITY = std::numeric_limits<int>::min();
 const int ADVANCED_MINIMAX_BOARD_FULL = 9 * 9;
 
 // Note: Increasing the depth limit will increase the time complexity for this algorithm.
@@ -279,18 +279,19 @@ void Advanced_Minimax::simulateMove(TicTacToe *currBoard, bool isMaximising, int
                 // Update best score and perform the pruning
                 if (isMaximising)
                 {
-                    bestScore = max(bestScore, score);
-                    alpha = max(alpha, score);
+                    bestScore = std::max(bestScore, score);
+                    alpha = std::max(alpha, score);
                 }
                 else
                 {
-                    bestScore = min(bestScore, score);
-                    beta = min(beta, score);
+                    bestScore = std::min(bestScore, score);
+                    beta = std::min(beta, score);
                 }
 
                 // Pruning branches
                 if (beta <= alpha)
                 {
+                    // No need to evaluate further as the outcome is already determined
                     return;
                 }
             }

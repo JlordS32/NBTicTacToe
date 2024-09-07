@@ -7,16 +7,15 @@
 #include "../struct/PlayerSymbol.h"
 #include "../managers/SymbolManager.h"
 
+using namespace std;
+
 class Menu
 {
 private:
     PlayerSymbol *playerSymbol;
 
 public:
-    Menu(SymbolManager *symbolManager)
-    {
-        this->playerSymbol = symbolManager->getPlayerSymbol();
-    }
+    Menu(SymbolManager *symbolManager) : playerSymbol(symbolManager->getPlayerSymbol()) {}
 
     int displayPlayerSelection(int player);
     void welcomeScreen();
