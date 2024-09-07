@@ -18,6 +18,27 @@ const int PLAYER_O = -1;
 
 class NBGame
 {
+private:
+	// CLASS INSTANCES
+	TicTacToe grid[3][3];
+	Coordinate currentBoard;
+	BoardManager boardManager;
+	PlayerManager playerManager;
+	SymbolManager symbolManager;
+	Menu menu;
+
+	// GAME STATE
+	GameState gameState;
+	int turnCounter;
+
+	// GAME FUNCTIONS
+	void start();
+	void gameLoop();
+	void displayBoard();
+	void handleMove();
+	void switchBoard();
+	void displayNumberOfTurns();
+
 public:
 	/**
 	 * @brief Construct a new NBGame object
@@ -40,26 +61,6 @@ public:
 	}
 
 	void play();
-
-private:
-	// CLASS INSTANCES
-	TicTacToe grid[3][3];
-	Coordinate currentBoard;
-	BoardManager boardManager;
-	PlayerManager playerManager;
-	SymbolManager symbolManager;
-	Menu menu;
-
-	// GAME STATE
-	GameState gameState;
-	int turnCounter;
-
-	// GAME FUNCTIONS
-	void start();
-	void gameLoop();
-	void displayBoard();
-	void handleMove();
-	void switchBoard();
 };
 
 /**
@@ -111,13 +112,7 @@ void NBGame::handleMove()
 	// Display current player
 	playerManager.displayCurrentPlayer(this->gameState.currentPlayer);
 
-	// Display the number of turns and the last move after the first move.
-	if (this->gameState.currentPlayer.x != -1 && this->gameState.currentPlayer.y != -1)
-	{
-		cout << "Number of turns: " << this->turnCounter << endl;
-		cout << "Last move: " << this->gameState.currentPlayer.x + 1 << ", " << this->gameState.currentPlayer.y + 1 << endl
-			 << endl;
-	}
+	displayNumberOfTurns();
 
 	// Get input from player.
 	playerManager.handleMove(&this->gameState.currentPlayer, &this->gameState.status);
@@ -141,6 +136,17 @@ void NBGame::switchBoard()
 void NBGame::displayBoard()
 {
 	boardManager.displayBoard();
+}
+
+void NBGame::displayNumberOfTurns()
+{
+	// Display the number of turns and the last move after the first move.
+	if (this->gameState.currentPlayer.x != -1 && this->gameState.currentPlayer.y != -1)
+	{
+		cout << "Number of turns: " << this->turnCounter << endl;
+		cout << "Last move: " << this->gameState.currentPlayer.x + 1 << ", " << this->gameState.currentPlayer.y + 1 << endl
+			 << endl;
+	}
 }
 
 #endif
