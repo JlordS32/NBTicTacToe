@@ -2,6 +2,7 @@
 #define HEURISTIC_SEARCH_H
 
 #include "../../../helpers/Tools.h"
+#include "../../base/Algorithm.h"
 
 const int HEURISTIC_MOVE_WEIGHT = 1;
 const int HEURISTIC_WIN_WEIGHT = 10;
@@ -11,13 +12,10 @@ const int HEURISTIC_NUM_POSITIONS = 4;
 const int HEURISTIC_FIRST_PLAYER = 1;
 const int HEURISTIC_SECOND_PLAYER = -1;
 
-class HeuristicSearch
+class HeuristicSearch : public Algorithm
 {
 protected:
     // PROTECTED ATTRIBUTES
-    TicTacToe (*grid)[3][3];
-    int player;
-    int enemyPlayer;
     int bestScore;
     int bestX;
     int bestY;
@@ -46,14 +44,12 @@ public:
      * @param grid A pointer to the board
      */
     HeuristicSearch(TicTacToe (*grid)[3][3], int player, bool weighByEnemyMoves = false)
-        : player(player),
-          grid(grid),
+        : Algorithm(grid, player),
           bestScore(-1),
           bestX(-1),
           bestY(-1),
           weighByEnemyMoves(weighByEnemyMoves)
     {
-        this->enemyPlayer = (player == 1) ? HEURISTIC_SECOND_PLAYER : HEURISTIC_FIRST_PLAYER;
     }
 
     virtual void useAlgorithm(int *x, int *y, const Coordinate *currentBoard) = 0;

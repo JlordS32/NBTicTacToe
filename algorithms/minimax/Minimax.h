@@ -4,6 +4,7 @@
 #include "../../TicTacToe.h"
 #include "../../helpers/Tools.h"
 #include "../../struct/Coordinate.h"
+#include "../base/Algorithm.h"
 #include <limits>
 #include <cstdlib>
 #include <ctime>
@@ -12,21 +13,16 @@ const int MINIMAX_BOARD_SIZE = 3;
 const int MINIMAX_POSITIVE_INFINITY = std::numeric_limits<int>::max();
 const int MINIMAX_NEGATIVE_INFINITY = std::numeric_limits<int>::min();
 
-class Minimax
+class Minimax : public Algorithm
 {
 private:
-    // PRIVATE ATTRIBUTES
-    int player;              // The player
-    int enemyPlayer;         // The enemy player
-    TicTacToe (*grid)[3][3]; // Pointer to the nineboard tictactoe.
-
     // PRIVATE METHODS
     int minimax(TicTacToe *board, const bool isMaximising, const int depth);
     bool isTerminalState(TicTacToe *board, const int depth, int &score);
     void simulateMove(TicTacToe *board, const bool isMaximising, const int depth, int &bestScore);
 
 public:
-    void useMinimax(int *x, int *y, const Coordinate *currentBoard);
+    void useAlgorithm(int *x, int *y, const Coordinate *currentBoard);
 
     /**
      * @brief Constructor
@@ -43,11 +39,8 @@ public:
      * @param player The player. Either 1 or -1
      */
     Minimax(TicTacToe (*grid)[3][3], int player)
-        : grid(grid),
-          player(player)
+        : Algorithm(grid, player)
     {
-        srand(time(0));
-        this->enemyPlayer = player == 1 ? -1 : 1;
     }
 };
 
@@ -60,7 +53,7 @@ public:
  * @param x The x value corresponding to the board. The row.
  * @param y The y value corresponding to the board. To column.
  */
-void Minimax::useMinimax(int *x, int *y, const Coordinate *currentBoard)
+void Minimax::useAlgorithm(int *x, int *y, const Coordinate *currentBoard)
 {
     int bestScore = (this->player == -1 ? MINIMAX_NEGATIVE_INFINITY : MINIMAX_POSITIVE_INFINITY);
     int bestX = -1, bestY = -1;

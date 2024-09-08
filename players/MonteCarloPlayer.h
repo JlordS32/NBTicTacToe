@@ -16,9 +16,9 @@ private:
     MonteCarlo carlo;
 
 public:
-    MonteCarloPlayer(TicTacToe (*grid)[3][3], int player)
+    MonteCarloPlayer(TicTacToe (*grid)[3][3], int player, int numOfSimulations)
         : Player(grid),
-          carlo(grid, player)
+          carlo(grid, player, numOfSimulations)
     {
     }
 
@@ -33,11 +33,10 @@ string MonteCarloPlayer::getName()
 
 void MonteCarloPlayer::getMove(Move *currentPlayer, const Coordinate *currentBoard)
 {
-    cout << "Monte Carlo Move: " << endl;
     // Initialise temporary variables to contain the best move.
     int bestX = 0, bestY = 0;
 
-    carlo.useMonteCarlo(&bestX, &bestY, currentBoard);
+    carlo.useAlgorithm(&bestX, &bestY, currentBoard);
 
     // Assign the best move chosen by the algorithm to the x and y pointers.
     currentPlayer->x = bestX;

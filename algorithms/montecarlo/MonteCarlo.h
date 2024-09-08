@@ -3,51 +3,35 @@
 
 #include "../../TicTacToe.h"
 #include "../../struct/Coordinate.h"
+#include "../base/Algorithm.h"
 
-#include <ctime>
-#include <cstdlib>
 #include <limits>
 
 using namespace std;
 
-// CONSTANTS
-const int MAX_NUM_SIMULATIONS = 10000;
+const int MONTE_RUNNING = 0;
 
-class MonteCarlo
+class MonteCarlo : public Algorithm
 {
 private:
-    int player;
-    int enemyPlayer;
     int numSimulations;
-    TicTacToe (*grid)[3][3];
+
+    // PRIVATE METHODS
+    void simulateMove(TicTacToe *tempBoard, int &tempPlayer, int &status);
+    void switchBoard(Coordinate *tempCoords, int x, int y);
+    void copyBoard(TicTacToe (*tempGrid)[3][3]);
 
 public:
-    MonteCarlo(TicTacToe (*grid)[3][3], int player)
-        : grid(grid),
-          player(player)
+    MonteCarlo(TicTacToe (*grid)[3][3], int player, int numSimulations = 1000)
+        : Algorithm(grid, player),
+          numSimulations(numSimulations)
     {
-        // Set enemy player
-        this->enemyPlayer = player == 1 ? -1 : 1;
-
-        // Seed randomisation
-        srand(time(0)); 
-
-        // Get number of simulations
-        cout << "You selected Monte Carlo Player: Please enter the number of simulations";
-        cout << "Enter number of simulations (1-" << MAX_NUM_SIMULATIONS << "): ";
-        while (!(cin >> numSimulations) || numSimulations < 1 || numSimulations > MAX_NUM_SIMULATIONS)
-        {
-            cout << "Invalid input. Please enter a number between 1 and " << MAX_NUM_SIMULATIONS << ": ";
-            cin.clear();
-            cin.ignore(1000, '\n');
-        }
-        cout << endl;
     }
 
-    void useMonteCarlo(int *x, int *y, const Coordinate *currentBoard);
+    void useAlgorithm(int *x, int *y, const Coordinate *currentBoard);
 };
 
-void MonteCarlo::useMonteCarlo(int *x, int *y, const Coordinate *currentBoard)
+void MonteCarlo::useAlgorithm(int *x, int *y, const Coordinate *currentBoard)
 {
     int bestScore = std::numeric_limits<int>::min();
     int bestMoveX = -1, bestMoveY = -1;
@@ -63,36 +47,37 @@ void MonteCarlo::useMonteCarlo(int *x, int *y, const Coordinate *currentBoard)
             // If the cell is empty, simulate the move
             if (board->getCell(moveX, moveY) == 0)
             {
-                // Initialise counter for total wins
+                // Initialize counter for total wins
                 int totalWins = 0;
 
                 // Start simulation
                 for (int i = 0; i < this->numSimulations; i++)
                 {
-                    TicTacToe tempBoard = *board;
+                    // Create a temporary copy of the grid
+                    TicTacToe tempGrid[3][3];
+                    Coordinate tempCoords = *currentBoard;
 
-                    // Make the move for the player
-                    tempBoard.addMove(moveX, moveY, player);
+                    // Copy the current board
+                    copyBoard(&tempGrid);
+
+                    // Get the first board
+                    TicTacToe *tempBoard = &tempGrid[tempCoords.x][tempCoords.y];
+
+                    // Get a reference to the current board in tempGrid
+                    tempBoard->addMove(moveX, moveY, player);
 
                     // Simulate the game
-                    int status = tempBoard.gameStatus();
+                    int status = tempBoard->gameStatus();
                     int tempPlayer = player;
 
-                    while (status == 0)  // Keep playing until the game is over
+                    switchBoard(&tempCoords, moveX, moveY);
+                    tempBoard = &tempGrid[tempCoords.x][tempCoords.y];
+
+                    while (status == MONTE_RUNNING) // Keep playing until the game is over
                     {
-                        // Switch the player
-                        tempPlayer = (tempPlayer == player) ? enemyPlayer : player;
-
-                        // Make a random move
-                        int randX, randY;
-                        do
-                        {
-                            randX = rand() % 3;
-                            randY = rand() % 3;
-                        } while (tempBoard.getCell(randX, randY) != 0);
-
-                        tempBoard.addMove(randX, randY, tempPlayer);
-                        status = tempBoard.gameStatus();
+                        simulateMove(tempBoard, tempPlayer, status);
+                        switchBoard(&tempCoords, moveX, moveY);
+                        tempBoard = &tempGrid[tempCoords.x][tempCoords.y];
                     }
 
                     // If the player wins the simulated game, increment totalWins
@@ -102,13 +87,10 @@ void MonteCarlo::useMonteCarlo(int *x, int *y, const Coordinate *currentBoard)
                     }
                 }
 
-                // Compute win rate for this move
-                double averageWins = static_cast<double>(totalWins) / numSimulations;
-
                 // If this move has the highest win rate, update the best move
-                if (averageWins > bestScore)
+                if (totalWins > bestScore)
                 {
-                    bestScore = averageWins;
+                    bestScore = totalWins;
                     bestMoveX = moveX;
                     bestMoveY = moveY;
                 }
@@ -116,8 +98,44 @@ void MonteCarlo::useMonteCarlo(int *x, int *y, const Coordinate *currentBoard)
         }
     }
 
+    // Return the best move found
     *x = bestMoveX;
     *y = bestMoveY;
+}
+
+void MonteCarlo::simulateMove(TicTacToe *tempBoard, int &tempPlayer, int &status)
+{
+    // Switch the player
+    tempPlayer = (tempPlayer == player) ? enemyPlayer : player;
+
+    // Generate a random move
+    int randX, randY;
+    do
+    {
+        randX = rand() % 3;
+        randY = rand() % 3;
+    } while (tempBoard->getCell(randX, randY) != 0);
+
+    tempBoard->addMove(randX, randY, tempPlayer);
+
+    status = tempBoard->gameStatus();
+}
+
+void MonteCarlo::switchBoard(Coordinate *tempCoords, int x, int y)
+{
+    tempCoords->x = x;
+    tempCoords->y = y;
+}
+
+void MonteCarlo::copyBoard(TicTacToe (*tempGrid)[3][3])
+{
+    for (int row = 0; row < 3; row++)
+    {
+        for (int col = 0; col < 3; col++)
+        {
+            (*tempGrid)[row][col] = (*this->grid)[row][col];
+        }
+    }
 }
 
 #endif

@@ -2,6 +2,7 @@
 #define ADVANCED_IMPROVED_H
 
 #include "../../TicTacToe.h"
+#include "../base/Algorithm.h"
 #include "../../struct/Coordinate.h"
 #include <limits>
 
@@ -21,13 +22,10 @@ const int ADVANCED_MINIMAX_MAX_DEPTH_LIMIT = 12;
 
 using namespace std;
 
-class Advanced_Minimax
+class Advanced_Minimax : public Algorithm
 {
 private:
     // PRIVATE ATTRIBUTES
-    int player;
-    int enemyPlayer;
-    TicTacToe (*grid)[3][3];
     static int minimaxCalls;
 
     // PRIVATE METHODS
@@ -37,7 +35,7 @@ private:
     int getTotalMoves();
 
 public:
-    void useMinimax(int *x, int *y, const Coordinate *currentBoard);
+    void useAlgorithm(int *x, int *y, const Coordinate *currentBoard);
 
     /**
      * @brief Constructor
@@ -49,10 +47,8 @@ public:
      * @param player The player. Either 1 or -1
      */
     Advanced_Minimax(TicTacToe (*grid)[3][3], int player)
-        : grid(grid),
-          player(player)
+        : Algorithm(grid, player)
     {
-        this->enemyPlayer = player == 1 ? -1 : 1;
     }
 };
 
@@ -66,7 +62,7 @@ int Advanced_Minimax::minimaxCalls = 0;
  * @param y A pointer y value corresponding to the board.
  * @param currentBoard A pointer to Coordinate struct that holds the position of the current select board for this game.
  */
-void Advanced_Minimax::useMinimax(int *x, int *y, const Coordinate *currentBoard)
+void Advanced_Minimax::useAlgorithm(int *x, int *y, const Coordinate *currentBoard)
 {
     // Update how many times this function has been called.
     this->minimaxCalls++;

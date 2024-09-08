@@ -46,7 +46,7 @@ void MinimaxPlayer::getMove(Move *currentPlayer, const Coordinate *currentBoard)
     int bestX = -1, bestY = -1;
 
     // Pass it to the minimax algorithm.
-    minimax.useMinimax(&bestX, &bestY, currentBoard);
+    minimax.useAlgorithm(&bestX, &bestY, currentBoard);
 
     // Assign the best move to the x and y pointers.
     currentPlayer->x = bestX;
