@@ -8,103 +8,116 @@
 #include <cstdlib>
 #include <limits>
 
-using namespace  std;
+using namespace std;
+
+// CONSTANTS
+const int MAX_NUM_SIMULATIONS = 10000;
 
 class MonteCarlo
 {
+private:
+    int player;
+    int enemyPlayer;
+    int numSimulations;
+    TicTacToe (*grid)[3][3];
+
 public:
+    MonteCarlo(TicTacToe (*grid)[3][3], int player)
+        : grid(grid),
+          player(player)
+    {
+        // Set enemy player
+        this->enemyPlayer = player == 1 ? -1 : 1;
+
+        // Seed randomisation
+        srand(time(0)); 
+
+        // Get number of simulations
+        cout << "You selected Monte Carlo Player: Please enter the number of simulations";
+        cout << "Enter number of simulations (1-" << MAX_NUM_SIMULATIONS << "): ";
+        while (!(cin >> numSimulations) || numSimulations < 1 || numSimulations > MAX_NUM_SIMULATIONS)
+        {
+            cout << "Invalid input. Please enter a number between 1 and " << MAX_NUM_SIMULATIONS << ": ";
+            cin.clear();
+            cin.ignore(1000, '\n');
+        }
+        cout << endl;
+    }
+
     void useMonteCarlo(int *x, int *y, const Coordinate *currentBoard);
 };
 
 void MonteCarlo::useMonteCarlo(int *x, int *y, const Coordinate *currentBoard)
 {
-    // if (noOfMoves >= 9)
-    //     return false;
+    int bestScore = std::numeric_limits<int>::min();
+    int bestMoveX = -1, bestMoveY = -1;
 
-    // srand(static_cast<unsigned int>(time(0)));
+    // Get the current board
+    TicTacToe *board = &(*this->grid)[currentBoard->x][currentBoard->y];
 
-    // int num_simulations = 1000;
-    // int bestScore = numeric_limits<int>::min();
-    // int bestMoveX = -1, bestMoveY = -1;
-    // int currPlayer = -1; // Computer's player
-    // int enemyPlayer = 1;
+    // Simulate all possible moves in the current state
+    for (int moveX = 0; moveX < 3; moveX++)
+    {
+        for (int moveY = 0; moveY < 3; moveY++)
+        {
+            // If the cell is empty, simulate the move
+            if (board->getCell(moveX, moveY) == 0)
+            {
+                // Initialise counter for total wins
+                int totalWins = 0;
 
-    // for (int moveX = 0; moveX < 3; moveX++)
-    // {
-    //     for (int moveY = 0; moveY < 3; moveY++)
-    //     {
-    //         if (board[moveX][moveY] == 0)
-    //         {
-    //             int totalWins = 0;
+                // Start simulation
+                for (int i = 0; i < this->numSimulations; i++)
+                {
+                    TicTacToe tempBoard = *board;
 
-    //             for (int i = 0; i < num_simulations; i++)
-    //             {
-    //                 int tempBoard[3][3];
-    //                 int tempNoOfMoves = noOfMoves;
-    //                 int player = currPlayer;
-    //                 bool gameOver = false;
+                    // Make the move for the player
+                    tempBoard.addMove(moveX, moveY, player);
 
-    //                 // Copy the board
-    //                 for (int r = 0; r < 3; r++)
-    //                 {
-    //                     for (int c = 0; c < 3; c++)
-    //                     {
-    //                         tempBoard[r][c] = board[r][c];
-    //                     }
-    //                 }
+                    // Simulate the game
+                    int status = tempBoard.gameStatus();
+                    int tempPlayer = player;
 
-    //                 // Make the move
-    //                 tempBoard[moveX][moveY] = player;
-    //                 tempNoOfMoves++;
+                    while (status == 0)  // Keep playing until the game is over
+                    {
+                        // Switch the player
+                        tempPlayer = (tempPlayer == player) ? enemyPlayer : player;
 
-    //                 // Simulate the game
-    //                 int status = gameStatus(tempBoard, tempNoOfMoves);
+                        // Make a random move
+                        int randX, randY;
+                        do
+                        {
+                            randX = rand() % 3;
+                            randY = rand() % 3;
+                        } while (tempBoard.getCell(randX, randY) != 0);
 
-    //                 while (!gameOver && tempNoOfMoves < 9)
-    //                 {
-    //                     // Switch player
-    //                     player = (player == currPlayer) ? enemyPlayer : currPlayer;
+                        tempBoard.addMove(randX, randY, tempPlayer);
+                        status = tempBoard.gameStatus();
+                    }
 
-    //                     // Random move for the opponent
-    //                     int oppX, oppY;
-    //                     do
-    //                     {
-    //                         oppX = rand() % 3;
-    //                         oppY = rand() % 3;
-    //                     } while (tempBoard[oppX][oppY] != 0);
+                    // If the player wins the simulated game, increment totalWins
+                    if (status == player)
+                    {
+                        totalWins++;
+                    }
+                }
 
-    //                     tempBoard[oppX][oppY] = player;
-    //                     tempNoOfMoves++;
+                // Compute win rate for this move
+                double averageWins = static_cast<double>(totalWins) / numSimulations;
 
-    //                     // Check for game status
-    //                     status = gameStatus(tempBoard, tempNoOfMoves);
-    //                     if (status == currPlayer)
-    //                     {
-    //                         totalWins++;
-    //                     }
-    //                     else if (status != 0) // If game ends with a draw or loss
-    //                     {
-    //                         gameOver = true;
-    //                     }
-    //                 }
-    //             }
+                // If this move has the highest win rate, update the best move
+                if (averageWins > bestScore)
+                {
+                    bestScore = averageWins;
+                    bestMoveX = moveX;
+                    bestMoveY = moveY;
+                }
+            }
+        }
+    }
 
-    //             // Compute average win rate for this move
-    //             double averageWins = totalWins / num_simulations;
-
-    //             // Update best move if this move is better
-    //             if (averageWins > bestScore)
-    //             {
-    //                 bestScore = averageWins;
-    //                 bestMoveX = moveX;
-    //                 bestMoveY = moveY;
-    //             }
-    //         }
-    //     }
-    // }
-
-    // x = bestMoveX;
-    // y = bestMoveY;
+    *x = bestMoveX;
+    *y = bestMoveY;
 }
 
 #endif

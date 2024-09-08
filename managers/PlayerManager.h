@@ -6,6 +6,7 @@
 #include "../players/base/Player.h"
 #include "../players/HumanPlayer.h"
 #include "../players/AdvancedMinimaxPlayer.h"
+#include "../players/MonteCarloPlayer.h"
 #include "../players/MinimaxPlayer.h"
 #include "../players/RandomPlayer.h"
 #include "../players/SmartPlayer.h"
@@ -136,6 +137,9 @@ void PlayerManager::initializePlayers(const int playerOne, const int playerTwo)
             break;
         case 6: // Advanced Minimax Player
             players[i] = new AdvancedMinimaxPlayer(this->grid, player);
+            break;
+        case 7:
+            players[i] = new MonteCarloPlayer(this->grid, player);
             break;
         default:
             break;
