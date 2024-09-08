@@ -41,28 +41,42 @@ int Menu::displayPlayerSelection(int player)
     char symbol = (player == 1) ? this->playerSymbol->playerOne : this->playerSymbol->playerTwo;
 
     string players[] = {"Human", "Random", "Minimax", "Mindful", "Smart", "Monte Carlo", "Advanced Minimax"};
-    int totalPlayers = sizeof(players)/sizeof(players[0]);
+    int totalPlayers = sizeof(players) / sizeof(players[0]);
 
     // DISPLAY THE PLAYER SELECTION MENU
     // --------------------------------
     cout << "SELECT PLAYER: " << symbol << endl
          << endl;
-    for (int i = 0; i < totalPlayers; i++) {
-        cout << i + 1 << ". " << players[i] << " Player" << endl;
+    for (int i = 0; i < totalPlayers; i++)
+    {
+        cout << i + 1
+             << ". "
+             << players[i]
+             << " Player"
+             << endl;
     }
+
+    cout << endl;
+    cout << "0 to choose at random" << endl;
     cout << endl;
 
     // QUERY USER FOR CHOICE
     // ---------------------
     cout << "Enter your choice (1-" << totalPlayers << "): ";
 
-    while(!(cin >> choice) && (choice < 1) || (choice > totalPlayers)) {
-        cout << "Please enter a number (1-" << totalPlayers << "7): ";    // Display input again
-        cin.clear();                // Clear previous input
-        cin.ignore(1000, '\n');     // Discard previous input
+    while (!(cin >> choice) || (choice < 0) || (choice > totalPlayers))
+    {
+        cout << "Please enter a number (1-" << totalPlayers << "): ";  // Display input again
+        cin.clear();                                                   // Clear previous input
+        cin.ignore(1000, '\n');                                        // Discard previous input
     }
 
     cout << endl;
+
+    // Choose player at random if choice is 0
+    if (choice == 0) {
+        choice = (rand() % totalPlayers) + 1;
+    }
 
     return choice;
 }
