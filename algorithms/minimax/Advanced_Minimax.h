@@ -12,7 +12,7 @@ const int ADVANCED_MINIMAX_DRAW_WEIGHT = 0;
 
 // Note: Increasing the depth limit will increase the time complexity for this algorithm.
 // There's about 81! possible moves, and calculating that is realistically unfeasible.
-const int ADVANCED_MINIMAX_DEPTH_LIMIT = 9;
+const int DEFAULT_DEPTH_LIMIT = 7;
 const int ADVANCED_MINIMAX_MAX_DEPTH_LIMIT = 12;
 
 using namespace std;
@@ -22,6 +22,7 @@ class Advanced_Minimax : public Algorithm
 private:
     // PRIVATE ATTRIBUTES
     static int minimaxCalls;
+    int depthLimit;
 
     // PRIVATE METHODS
     int minimax(TicTacToe *prevBoard, TicTacToe *currBoard, bool isMaximising, int depth, int alpha, int beta);
@@ -41,8 +42,9 @@ public:
      * @param grid A pointer to the nineboard tictactoe. Type TicTacToe (*grid)[3][3].
      * @param player The player. Either 1 or -1
      */
-    Advanced_Minimax(TicTacToe (*grid)[3][3], int player)
-        : Algorithm(grid, player)
+    Advanced_Minimax(TicTacToe (*grid)[3][3], int player, int depthLimit = DEFAULT_DEPTH_LIMIT)
+        : Algorithm(grid, player),
+          depthLimit(depthLimit)
     {
     }
 };
@@ -66,7 +68,7 @@ void Advanced_Minimax::useAlgorithm(int *x, int *y, const Coordinate *currentBoa
     // ----------------------------------------------------
     // The depth must not be greater than 12. This is because
     // Anything over 12 will take too much time to calculate.
-    if (ADVANCED_MINIMAX_DEPTH_LIMIT >= ADVANCED_MINIMAX_MAX_DEPTH_LIMIT && this->minimaxCalls < 5)
+    if (depthLimit >= (ADVANCED_MINIMAX_MAX_DEPTH_LIMIT - 3) && this->minimaxCalls < 5)
     {
         cout << "Depth limit too high. Must be less than "
              << ADVANCED_MINIMAX_MAX_DEPTH_LIMIT
@@ -231,7 +233,7 @@ bool Advanced_Minimax::isTerminalState(TicTacToe *prevBoard, TicTacToe *currBoar
         score = ADVANCED_MINIMAX_DRAW_WEIGHT - noEnemyOccurrences;
         return true;
     }
-    if (depth >= ADVANCED_MINIMAX_DEPTH_LIMIT)
+    if (depth >= this->depthLimit)
     {
         score = ADVANCED_MINIMAX_DRAW_WEIGHT - noEnemyOccurrences;
         return true;

@@ -20,6 +20,7 @@ const int MANAGER_PLAYER_O = 1;
 const int MANAGER_PLAYER_X = -1;
 const int DRAW = 2;
 const int MAX_NUM_SIMULATIONS = 10000;
+const int MAX_DEPTH_LIMIT = 10;
 
 class PlayerManager
 {
@@ -33,6 +34,7 @@ private:
     // PRIVATE METHODS
     void checkDraw(int *gameStatus);
     int getNumSimulations(int player);
+    int getDepthLimit(int player);
 
 public:
     PlayerManager(TicTacToe (*grid)[3][3], Coordinate *currentBoard, SymbolManager *symbolManager)
@@ -138,10 +140,10 @@ void PlayerManager::initializePlayers(const int playerOne, const int playerTwo)
             players[i] = new SmartPlayer(this->grid, player);
             break;
         case 6: // Monte Carlo Player
-            players[i] = new MonteCarloPlayer(this->grid, player, 10000);
+            players[i] = new MonteCarloPlayer(this->grid, player, getNumSimulations(player));
             break;
         case 7: // Advanced Minimax Player
-            players[i] = new AdvancedMinimaxPlayer(this->grid, player);
+            players[i] = new AdvancedMinimaxPlayer(this->grid, player, getDepthLimit(player));
             break;
         default:
             break;
@@ -153,15 +155,19 @@ void PlayerManager::initializePlayers(const int playerOne, const int playerTwo)
  * @brief Gets the number of simulations
  *
  * A simply function that queries user for the number of simulations required for the Monte Claro Player.
- * 
+ *
  * @return int
  */
 int PlayerManager::getNumSimulations(int player)
 {
+    char symbol = player == 1 ? this->playerSymbol->playerOne : this->playerSymbol->playerTwo;
     int numSimulations;
 
+    cout << "--------------------------------" << endl;
+    cout << "MONTE CARLO PLAYER: " << symbol << endl;
+    cout << "--------------------------------" << endl;
+
     // Get number of simulations
-    cout << "Monte Carlo Player " << player << endl;
     cout << "Enter number of simulations (1-" << MAX_NUM_SIMULATIONS << "): ";
     while (!(cin >> numSimulations) || numSimulations < 1 || numSimulations > MAX_NUM_SIMULATIONS)
     {
@@ -169,8 +175,38 @@ int PlayerManager::getNumSimulations(int player)
         cin.clear();
         cin.ignore(1000, '\n');
     }
-    
+
     return numSimulations;
+}
+
+/**
+ * @brief Gets the depth limit
+ *
+ * A simply function that queries user for depth search limit for the Advanced Minimax Player.
+ *
+ * @return int
+ */
+int PlayerManager::getDepthLimit(int player)
+{
+    char symbol = player == 1 ? this->playerSymbol->playerOne : this->playerSymbol->playerTwo;
+    int depth;
+
+    cout << "--------------------------------" << endl;
+    cout << "ADVANCED MINIMAX PLAYER: " << symbol << endl;
+    cout << "--------------------------------" << endl;
+
+    // Get depth limit
+    cout << "Enter depth limit (1-" << MAX_DEPTH_LIMIT << "): ";
+    while (!(cin >> depth) || depth < 1 || depth > MAX_DEPTH_LIMIT)
+    {
+        cout << "Invalid input. Please enter a number between 1 and " << MAX_DEPTH_LIMIT << ": ";
+        cin.clear();
+        cin.ignore(1000, '\n');
+    }
+
+    cout << endl;
+
+    return depth;
 }
 
 /**

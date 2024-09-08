@@ -22,13 +22,16 @@ private:
     Advanced_Minimax minimax;
 
 public:
-    AdvancedMinimaxPlayer(TicTacToe (*grid)[3][3], int player) : Player(grid), minimax(grid, player) {};
+    AdvancedMinimaxPlayer(TicTacToe (*grid)[3][3], int player, int depthLimit)
+        : Player(grid),
+          minimax(grid, player, depthLimit) {};
 
     string getName() override;
     void getMove(Move *currentPlayer, const Coordinate *currentBoard) override;
 };
 
-string AdvancedMinimaxPlayer::getName() {
+string AdvancedMinimaxPlayer::getName()
+{
     return "Advanced Minimax";
 }
 
