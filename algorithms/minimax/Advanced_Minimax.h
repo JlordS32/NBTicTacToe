@@ -2,6 +2,7 @@
 #define ADVANCED_IMPROVED_H
 
 #include "../../TicTacToe.h"
+#include "../../struct/Coordinate.h"
 #include <limits>
 
 // CONSTANTS
@@ -17,6 +18,9 @@ const int ADVANCED_MINIMAX_BOARD_FULL = 9 * 9;
 // There's about 81! possible moves, and calculating that is realistically unfeasible.
 const int ADVANCED_MINIMAX_DEPTH_LIMIT = 9;
 const int ADVANCED_MINIMAX_MAX_DEPTH_LIMIT = 12;
+
+using namespace std;
+
 class Advanced_Minimax
 {
 private:

@@ -2,9 +2,14 @@
 #define RANDOMPLAYER_H
 
 #include "./base/Player.h"
+#include "../TicTacToe.h"
+#include "../struct/Coordinate.h"
+#include "../struct/Move.h"
 #include "../helpers/Tools.h"
 #include <cstdlib>
 #include <ctime>
+
+using namespace std;
 
 /**
  * @class Computer

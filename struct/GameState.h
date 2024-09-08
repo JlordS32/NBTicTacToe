@@ -1,6 +1,8 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 
+#include "./Move.h"
+
 /**
  * @brief Struct to manage the state of the game.
  *

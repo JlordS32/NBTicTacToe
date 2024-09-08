@@ -1,14 +1,9 @@
-#ifndef ADVANCEDMINIMAXPLAYER_H
-#define ADVANCEDMINIMAXPLAYER_H
+#ifndef MONTECARLO_H
+#define MONTECARLO_H
 
 #include "./base/Player.h"
-#include "../TicTacToe.h"
-#include "../struct/Coordinate.h"
-#include "../struct/Move.h"
-#include "../algorithms/minimax/Advanced_Minimax.h"
+#include "../algorithms/montecarlo/MonteCarlo.h"
 #include "../helpers/Tools.h"
-
-using namespace std;
 
 /**
  * @class MinimaxPlayer
@@ -16,20 +11,20 @@ using namespace std;
  *
  * This class is used to generate a random move for the smart player.
  */
-class AdvancedMinimaxPlayer : public Player
+class MonteCarloPlayer : public Player
 {
 private:
-    Advanced_Minimax minimax;
+    MonteCarlo carlo;
 
 public:
-    AdvancedMinimaxPlayer(TicTacToe (*grid)[3][3], int player) : Player(grid), minimax(grid, player) {};
+    MonteCarloPlayer(TicTacToe (*grid)[3][3], int player) : Player(grid), minimax(grid, player) {};
 
     string getName() override;
     void getMove(Move *currentPlayer, const Coordinate *currentBoard) override;
 };
 
-string AdvancedMinimaxPlayer::getName() {
-    return "Advanced Minimax";
+string MonteCarloPlayer::getName() {
+    return "Monte Carlo";
 }
 
 /**
@@ -39,7 +34,7 @@ string AdvancedMinimaxPlayer::getName() {
  * @param y The y value corresponding to the board.
  * @param currentBoard A pointer to Coordinate struct that holds the position of the current select board for this game.
  */
-void AdvancedMinimaxPlayer::getMove(Move *currentPlayer, const Coordinate *currentBoard)
+void MonteCarloPlayer::getMove(Move *currentPlayer, const Coordinate *currentBoard)
 {
     // Initialise temporary variables to contain the best move.
     int bestX = 0, bestY = 0;

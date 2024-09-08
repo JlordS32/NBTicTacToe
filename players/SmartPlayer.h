@@ -2,8 +2,13 @@
 #define SMARTPLAYER_H
 
 #include "./base/Player.h"
+#include "../TicTacToe.h"
+#include "../struct/Coordinate.h"
+#include "../struct/Move.h"
 #include "../algorithms/heuristic/derived/Smart_Algorithm.h"
 #include "../helpers/Tools.h"
+
+using namespace std;
 
 class SmartPlayer : public Player
 {

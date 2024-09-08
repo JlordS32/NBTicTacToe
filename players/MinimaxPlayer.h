@@ -2,8 +2,13 @@
 #define MINIMAXPLAYER_H
 
 #include "./base/Player.h"
+#include "../TicTacToe.h"
+#include "../struct/Coordinate.h"
+#include "../struct/Move.h"
 #include "../algorithms/minimax/Minimax.h"
 #include "../helpers/Tools.h"
+
+using namespace std;
 
 /**
  * @class MinimaxPlayer

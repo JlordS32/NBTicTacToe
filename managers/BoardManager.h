@@ -1,8 +1,10 @@
 #ifndef BOARDMANAGER_H_
 #define BOARDMANAGER_H_
 
-#include "../struct/Coordinate.h"
 #include "./SymbolManager.h"
+#include "../NBTicTacToe.h"
+#include "../TicTacToe.h"
+#include "../struct/Coordinate.h"
 #include "../struct/Move.h"
 #include "../helpers/Tools.h"
 

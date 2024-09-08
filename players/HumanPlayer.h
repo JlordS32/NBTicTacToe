@@ -1,7 +1,12 @@
 #ifndef HUMANPLAYER_H
 #define HUMANPLAYER_H
 
+#include "../TicTacToe.h"
+#include "../struct/Coordinate.h"
+#include "../struct/Move.h"
 #include "./base/Player.h"
+
+using namespace std;
 
 class HumanPlayer : public Player
 {

@@ -3,6 +3,7 @@
 
 #include "../../TicTacToe.h"
 #include "../../helpers/Tools.h"
+#include "../../struct/Coordinate.h"
 #include <limits>
 #include <cstdlib>
 #include <ctime>

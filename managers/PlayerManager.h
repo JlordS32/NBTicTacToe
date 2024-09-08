@@ -1,6 +1,8 @@
 #ifndef PLAYERMANAGER_H_
 #define PLAYERMANAGER_H_
 
+#include "./SymbolManager.h"
+#include "../TicTacToe.h"
 #include "../players/base/Player.h"
 #include "../players/HumanPlayer.h"
 #include "../players/AdvancedMinimaxPlayer.h"
@@ -11,7 +13,6 @@
 #include "../struct/Coordinate.h"
 #include "../struct/Move.h"
 #include "../struct/PlayerSymbol.h"
-#include "./SymbolManager.h"
 
 const int BOARD_FULL = 9 * 9;
 const int MANAGER_PLAYER_O = 1;

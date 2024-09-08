@@ -2,6 +2,8 @@
 #define SMART_ALGORITHM_H
 
 #include "../base/Heuristic_Search.h"
+#include "../../../struct/Coordinate.h"
+#include "../../../TicTacToe.h"
 
 class SmartAlgorithm : public HeuristicSearch
 {

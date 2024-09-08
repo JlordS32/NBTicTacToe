@@ -5,6 +5,7 @@
 #include "../../struct/Coordinate.h"
 #include "../../struct/Move.h"
 #include <iostream>
+
 using namespace std;
 
 class Player

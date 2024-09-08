@@ -12,6 +12,8 @@ const int GRID_SIZE = 3;
 const int LINE_WIDTH = 19;
 const int THICKNESS = 2;
 
+using namespace std;
+
 class NBTicTacToe
 {
 private:

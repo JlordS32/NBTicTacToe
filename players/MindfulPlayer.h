@@ -2,8 +2,13 @@
 #define MINDFULPLAYER_H
 
 #include "./base/Player.h"
+#include "../TicTacToe.h"
+#include "../struct/Coordinate.h"
+#include "../struct/Move.h"
 #include "../algorithms/heuristic/derived/Mindful_Algorithm.h"
 #include "../helpers/Tools.h"
+
+using namespace std;
 
 class MindfulPlayer : public Player
 {
