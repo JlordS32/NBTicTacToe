@@ -9,6 +9,8 @@
 // CONSTANTS
 const int ADVANCED_MINIMAX_WIN_WEIGHT = 20;
 const int ADVANCED_MINIMAX_DRAW_WEIGHT = 0;
+const int MAX_PLAYER = -1;
+const int MIN_PLAYER = 1;
 
 // Note: Increasing the depth limit will increase the time complexity for this algorithm.
 // There's about 81! possible moves, and calculating that is realistically unfeasible.
@@ -81,7 +83,7 @@ void Advanced_Minimax::useAlgorithm(int *x, int *y, const Coordinate *currentBoa
     // Player -1 will be maximising. It will prioritise the highest score.
     // Player 1 will be minimising. It will prioritise the least score.
     // We initially set the values to either -infinity (maximising) or +infinity (minimising) in respect to the player.
-    int bestScore = (this->player == -1 ? NEGATIVE_INFINITY : POSITIVE_INFINITY);
+    int bestScore = (this->player == MAX_PLAYER ? NEGATIVE_INFINITY : POSITIVE_INFINITY);
     int bestX = -1, bestY = -1;
 
     // Starting board
@@ -91,7 +93,7 @@ void Advanced_Minimax::useAlgorithm(int *x, int *y, const Coordinate *currentBoa
     for (int row = 0; row < BOARD_SIZE; row++)
     {
         for (int col = 0; col < BOARD_SIZE; col++)
-        {
+        {   
             if (board->getCell(row, col) == BOARD_EMPTY)
             {
                 // Simulate the move
@@ -100,7 +102,7 @@ void Advanced_Minimax::useAlgorithm(int *x, int *y, const Coordinate *currentBoa
                 TicTacToe *nextBoard = &(*this->grid)[row][col];
 
                 // Determine if player is maximising or minimising.
-                bool isMaximising = (this->player == -1 ? false : true);
+                bool isMaximising = (this->player == MAX_PLAYER ? false : true);
 
                 // Initialise the alpha and beta values
                 int alpha = NEGATIVE_INFINITY;
@@ -213,12 +215,12 @@ bool Advanced_Minimax::isTerminalState(TicTacToe *prevBoard, TicTacToe *currBoar
     int noEnemyOccurrences = Tools::checkValues(currBoard, 1);
 
     // Check each terminal state.
-    if (prevBoardStatus == -1)
+    if (prevBoardStatus == MAX_PLAYER)
     {
         score = ADVANCED_MINIMAX_WIN_WEIGHT - (depth + noEnemyOccurrences);
         return true;
     }
-    if (prevBoardStatus == 1)
+    if (prevBoardStatus == MIN_PLAYER)
     {
         score = -ADVANCED_MINIMAX_WIN_WEIGHT + depth + noEnemyOccurrences;
         return true;
@@ -264,7 +266,7 @@ void Advanced_Minimax::simulateMove(TicTacToe *currBoard, bool isMaximising, int
             if (currBoard->getCell(row, col) == BOARD_EMPTY)
             {
                 // Determine player and start move simulation.
-                int currPlayer = isMaximising ? -1 : 1;
+                int currPlayer = isMaximising ? MAX_PLAYER : MIN_PLAYER;
                 currBoard->addMove(row, col, currPlayer);
 
                 TicTacToe *nextBoard = &(*this->grid)[row][col];
@@ -290,7 +292,6 @@ void Advanced_Minimax::simulateMove(TicTacToe *currBoard, bool isMaximising, int
                 // Pruning branches
                 if (beta <= alpha)
                 {
-                    // No need to evaluate further as the outcome is already determined
                     return;
                 }
             }
