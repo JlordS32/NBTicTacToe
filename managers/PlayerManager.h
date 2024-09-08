@@ -125,11 +125,11 @@ void PlayerManager::initializePlayers(const int playerOne, const int playerTwo)
         case 1: // Human Player
             players[i] = new HumanPlayer(this->grid);
             break;
-        case 2: // Minimax Player
-            players[i] = new MinimaxPlayer(this->grid, player);
-            break;
-        case 3: // Random Player
+        case 2: // Random Player
             players[i] = new RandomPlayer(this->grid);
+            break;
+        case 3: // Minimax Player
+            players[i] = new MinimaxPlayer(this->grid, player);
             break;
         case 4: // Mindful Player
             players[i] = new MindfulPlayer(this->grid, player);
@@ -137,11 +137,11 @@ void PlayerManager::initializePlayers(const int playerOne, const int playerTwo)
         case 5: // Smart Player
             players[i] = new SmartPlayer(this->grid, player);
             break;
-        case 6: // Advanced Minimax Player
-            players[i] = new AdvancedMinimaxPlayer(this->grid, player);
-            break;
-        case 7: // Monte Carlo Player
+        case 6: // Monte Carlo Player
             players[i] = new MonteCarloPlayer(this->grid, player, 10000);
+            break;
+        case 7: // Advanced Minimax Player
+            players[i] = new AdvancedMinimaxPlayer(this->grid, player);
             break;
         default:
             break;

@@ -40,7 +40,7 @@ int Menu::displayPlayerSelection(int player)
     int choice = 0;
     char symbol = (player == 1) ? this->playerSymbol->playerOne : this->playerSymbol->playerTwo;
 
-    string players[] = {"Human", "Minimax", "Random", "Mindful", "Smart", "Advanced Minimax", "Monte Carlo"};
+    string players[] = {"Human", "Random", "Minimax", "Mindful", "Smart", "Monte Carlo", "Advanced Minimax"};
     int totalPlayers = sizeof(players)/sizeof(players[0]);
 
     // DISPLAY THE PLAYER SELECTION MENU
@@ -56,7 +56,7 @@ int Menu::displayPlayerSelection(int player)
     // ---------------------
     cout << "Enter your choice (1-" << totalPlayers << "): ";
 
-    while(!(cin >> choice) && (choice < 1) || (choice > 7)) {
+    while(!(cin >> choice) && (choice < 1) || (choice > totalPlayers)) {
         cout << "Please enter a number (1-" << totalPlayers << "7): ";    // Display input again
         cin.clear();                // Clear previous input
         cin.ignore(1000, '\n');     // Discard previous input
