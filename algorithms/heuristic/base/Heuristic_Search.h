@@ -9,9 +9,6 @@ const int HEURISTIC_WIN_WEIGHT = 10;
 const int HEURISTIC_INIAL_SCORE = 10;
 const int HEURISTIC_NUM_POSITIONS = 4;
 
-const int HEURISTIC_FIRST_PLAYER = 1;
-const int HEURISTIC_SECOND_PLAYER = -1;
-
 class HeuristicSearch : public Algorithm
 {
 protected:
@@ -80,7 +77,7 @@ void HeuristicSearch::checkCentre(TicTacToe *board)
     const int centreX = 1, centreY = 1;
 
     // Check if the centre is available and prioritize it
-    if (board->getCell(centreX, centreY) == 0)
+    if (board->getCell(centreX, centreY) == BOARD_EMPTY)
     {
         if (this->weighByEnemyMoves)
         {
@@ -133,7 +130,7 @@ void HeuristicSearch::simulateMove(TicTacToe *board, int arr[HEURISTIC_NUM_POSIT
         int posX = arr[i][0];
         int posY = arr[i][1];
 
-        if (board->getCell(posX, posY) == 0)
+        if (board->getCell(posX, posY) == BOARD_EMPTY)
         {
             // Simulate the corner move
             board->addMove(posX, posY, this->player);
@@ -157,7 +154,7 @@ void HeuristicSearch::simulateMove(TicTacToe *board, int arr[HEURISTIC_NUM_POSIT
             }
 
             // Undo the move
-            board->addMove(posX, posY, 0);
+            board->addMove(posX, posY, BOARD_EMPTY);
 
             evaluateScore(currScore, posX, posY);
 

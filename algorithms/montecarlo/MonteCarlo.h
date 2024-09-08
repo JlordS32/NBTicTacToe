@@ -9,8 +9,6 @@
 
 using namespace std;
 
-const int MONTE_RUNNING = 0;
-
 class MonteCarlo : public Algorithm
 {
 private:
@@ -56,9 +54,9 @@ void MonteCarlo::useAlgorithm(int *x, int *y, const Coordinate *currentBoard)
     TicTacToe *board = &(*this->grid)[currentBoard->x][currentBoard->y];
 
     // Simulate all possible moves in the current state
-    for (int moveX = 0; moveX < 3; moveX++)
+    for (int moveX = 0; moveX < BOARD_SIZE; moveX++)
     {
-        for (int moveY = 0; moveY < 3; moveY++)
+        for (int moveY = 0; moveY < BOARD_SIZE; moveY++)
         {
             // If the cell is empty, simulate the move
             if (board->getCell(moveX, moveY) == 0)
@@ -137,7 +135,7 @@ int MonteCarlo::playOutGame(TicTacToe (*tempGrid)[3][3], TicTacToe *tempBoard)
     int tempPlayer = player;
 
     // Start simulation
-    while (status == MONTE_RUNNING)
+    while (status == GAME_RUNNING)
     {
         int x, y;
 
@@ -145,7 +143,7 @@ int MonteCarlo::playOutGame(TicTacToe (*tempGrid)[3][3], TicTacToe *tempBoard)
         simulateMove(tempBoard, tempPlayer, status, x, y);
 
         // Switch a board if the game is not over.
-        if (status == MONTE_RUNNING)
+        if (status == GAME_RUNNING)
         {
             switchBoard(tempGrid, &tempBoard, x, y);
         }
@@ -209,9 +207,9 @@ void MonteCarlo::switchBoard(TicTacToe (*tempGrid)[3][3], TicTacToe **tempBoard,
 void MonteCarlo::copyBoard(TicTacToe (*tempGrid)[3][3])
 {
     // Check rows and cols
-    for (int row = 0; row < 3; row++)
+    for (int row = 0; row < BOARD_SIZE; row++)
     {
-        for (int col = 0; col < 3; col++)
+        for (int col = 0; col < BOARD_SIZE; col++)
         {
             // Assign each to the temporary grid
             (*tempGrid)[row][col] = (*this->grid)[row][col];

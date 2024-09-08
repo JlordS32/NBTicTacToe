@@ -7,13 +7,8 @@
 #include <limits>
 
 // CONSTANTS
-const int ADVANCED_MINIMAX_BOARD_SIZE = 3;
 const int ADVANCED_MINIMAX_WIN_WEIGHT = 20;
 const int ADVANCED_MINIMAX_DRAW_WEIGHT = 0;
-const int BOARD_EMPTY = 0;
-const int POSITIVE_INFINITY = std::numeric_limits<int>::max();
-const int NEGATIVE_INFINITY = std::numeric_limits<int>::min();
-const int ADVANCED_MINIMAX_BOARD_FULL = 9 * 9;
 
 // Note: Increasing the depth limit will increase the time complexity for this algorithm.
 // There's about 81! possible moves, and calculating that is realistically unfeasible.
@@ -91,9 +86,9 @@ void Advanced_Minimax::useAlgorithm(int *x, int *y, const Coordinate *currentBoa
     TicTacToe *board = &(*grid)[currentBoard->x][currentBoard->y];
 
     // Root nodes
-    for (int row = 0; row < ADVANCED_MINIMAX_BOARD_SIZE; row++)
+    for (int row = 0; row < BOARD_SIZE; row++)
     {
-        for (int col = 0; col < ADVANCED_MINIMAX_BOARD_SIZE; col++)
+        for (int col = 0; col < BOARD_SIZE; col++)
         {
             if (board->getCell(row, col) == BOARD_EMPTY)
             {
@@ -231,7 +226,7 @@ bool Advanced_Minimax::isTerminalState(TicTacToe *prevBoard, TicTacToe *currBoar
         score = 0;
         return true;
     }
-    if (getTotalMoves() == ADVANCED_MINIMAX_BOARD_FULL)
+    if (getTotalMoves() == BOARD_FULL)
     {
         score = ADVANCED_MINIMAX_DRAW_WEIGHT - noEnemyOccurrences;
         return true;
@@ -259,9 +254,9 @@ bool Advanced_Minimax::isTerminalState(TicTacToe *prevBoard, TicTacToe *currBoar
 void Advanced_Minimax::simulateMove(TicTacToe *currBoard, bool isMaximising, int depth, int alpha, int beta, int &bestScore)
 {
     // Simulate all possible moves
-    for (int row = 0; row < ADVANCED_MINIMAX_BOARD_SIZE; row++)
+    for (int row = 0; row < BOARD_SIZE; row++)
     {
-        for (int col = 0; col < ADVANCED_MINIMAX_BOARD_SIZE; col++)
+        for (int col = 0; col < BOARD_SIZE; col++)
         {
             // We can only simulate to positions that are empty.
             if (currBoard->getCell(row, col) == BOARD_EMPTY)
@@ -313,9 +308,9 @@ int Advanced_Minimax::getTotalMoves()
     int totalMoves = 0;
 
     // Loop through each individual boards in the grid.
-    for (int i = 0; i < ADVANCED_MINIMAX_BOARD_SIZE; i++)
+    for (int i = 0; i < BOARD_SIZE; i++)
     {
-        for (int j = 0; j < ADVANCED_MINIMAX_BOARD_SIZE; j++)
+        for (int j = 0; j < BOARD_SIZE; j++)
         {
             TicTacToe *board = &(*grid)[i][j];
             totalMoves += board->getNoOfMoves();

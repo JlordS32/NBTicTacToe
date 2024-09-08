@@ -15,7 +15,7 @@
 #include "../struct/Move.h"
 #include "../struct/PlayerSymbol.h"
 
-const int BOARD_FULL = 9 * 9;
+const int PM_BOARD_FULL = 9 * 9;
 const int MANAGER_PLAYER_O = 1;
 const int MANAGER_PLAYER_X = -1;
 const int DRAW = 2;
@@ -88,7 +88,7 @@ void PlayerManager::checkDraw(int *gameStatus)
 {
     int totalMoves = Tools::getTotalMoves(this->grid);
 
-    if (totalMoves == BOARD_FULL)
+    if (totalMoves == PM_BOARD_FULL)
     {
         *gameStatus = 2;
     }
@@ -140,8 +140,8 @@ void PlayerManager::initializePlayers(const int playerOne, const int playerTwo)
         case 6: // Advanced Minimax Player
             players[i] = new AdvancedMinimaxPlayer(this->grid, player);
             break;
-        case 7:
-            players[i] = new MonteCarloPlayer(this->grid, player, getNumSimulations(i + 1));
+        case 7: // Monte Carlo Player
+            players[i] = new MonteCarloPlayer(this->grid, player, 10000);
             break;
         default:
             break;

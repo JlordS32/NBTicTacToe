@@ -10,12 +10,12 @@
 
 #include "./struct/Move.h"
 
-const int BOARD_SIZE = 3;
+const int SIZE = 3;
 
 class TicTacToe
 {
 private:
-	int board[BOARD_SIZE][BOARD_SIZE];
+	int board[SIZE][SIZE];
 
 public:
 	/**

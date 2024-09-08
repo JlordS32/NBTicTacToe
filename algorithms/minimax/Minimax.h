@@ -9,10 +9,6 @@
 #include <cstdlib>
 #include <ctime>
 
-const int MINIMAX_BOARD_SIZE = 3;
-const int MINIMAX_POSITIVE_INFINITY = std::numeric_limits<int>::max();
-const int MINIMAX_NEGATIVE_INFINITY = std::numeric_limits<int>::min();
-
 class Minimax : public Algorithm
 {
 private:
@@ -55,7 +51,7 @@ public:
  */
 void Minimax::useAlgorithm(int *x, int *y, const Coordinate *currentBoard)
 {
-    int bestScore = (this->player == -1 ? MINIMAX_NEGATIVE_INFINITY : MINIMAX_POSITIVE_INFINITY);
+    int bestScore = (this->player == -1 ? NEGATIVE_INFINITY : POSITIVE_INFINITY);
     int bestX = -1, bestY = -1;
 
     // Starting board
@@ -64,12 +60,12 @@ void Minimax::useAlgorithm(int *x, int *y, const Coordinate *currentBoard)
     if (!Tools::isBoardEmpty(board))
     {
         // Simulate all possible moevs from the current state of the board
-        for (int row = 0; row < MINIMAX_BOARD_SIZE; row++)
+        for (int row = 0; row < BOARD_SIZE; row++)
         {
-            for (int col = 0; col < MINIMAX_BOARD_SIZE; col++)
+            for (int col = 0; col < BOARD_SIZE; col++)
             {
                 // Check if the cell is empty
-                if (board->getCell(row, col) == 0)
+                if (board->getCell(row, col) == BOARD_EMPTY)
                 {
                     // SIMULATING EACH MOVE
                     // We set the cell to -1 because -1 is computer
@@ -82,7 +78,7 @@ void Minimax::useAlgorithm(int *x, int *y, const Coordinate *currentBoard)
                     int score = minimax(board, isMaximising, 0);
 
                     // Undo move
-                    board->addMove(row, col, 0);
+                    board->addMove(row, col, BOARD_EMPTY);
 
                     // MAXIMISING
                     if (this->player == -1)
@@ -206,12 +202,12 @@ bool Minimax::isTerminalState(TicTacToe *board, const int depth, int &score)
 void Minimax::simulateMove(TicTacToe *board, const bool isMaximising, const int depth, int &bestScore)
 {
     // Simulate all possible moves
-    for (int row = 0; row < MINIMAX_BOARD_SIZE; row++)
+    for (int row = 0; row < BOARD_SIZE; row++)
     {
-        for (int col = 0; col < MINIMAX_BOARD_SIZE; col++)
+        for (int col = 0; col < BOARD_SIZE; col++)
         {
             // Check if the cell is empty on the current selected board
-            if (board->getCell(row, col) == 0)
+            if (board->getCell(row, col) == BOARD_EMPTY)
             {
                 // Set the cell value to the current player
                 board->addMove(row, col, isMaximising ? -1 : 1);
@@ -220,7 +216,7 @@ void Minimax::simulateMove(TicTacToe *board, const bool isMaximising, const int 
                 int score = minimax(board, depth + 1, !isMaximising);
 
                 // Undo for the next branch
-                board->addMove(row, col, 0);
+                board->addMove(row, col, BOARD_EMPTY);
 
                 // Evaluate the best score
                 bestScore = isMaximising ? std::max(bestScore, score) : std::min(bestScore, score);
