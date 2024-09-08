@@ -52,6 +52,9 @@ public:
     virtual void useAlgorithm(int *x, int *y, const Coordinate *currentBoard) = 0;
 };
 
+/**
+ * @brief Resets the positions back to -1
+ */
 void HeuristicSearch::resetPositions()
 {
     this->bestScore = -1;
@@ -59,6 +62,13 @@ void HeuristicSearch::resetPositions()
     this->bestY = -1;
 }
 
+/**
+ * @brief Evaluates the score
+ *
+ * @param currScore The current score
+ * @param x The x coordinate of the best move
+ * @param y The y coordinate of the best move
+ */
 void HeuristicSearch::evaluateScore(const int currScore, const int x, const int y)
 {
     if (currScore > this->bestScore)
@@ -69,6 +79,11 @@ void HeuristicSearch::evaluateScore(const int currScore, const int x, const int 
     }
 }
 
+/**
+ * @brief Checks if the centre is available and prioritize it
+ *
+ * @param board A pointer to the board
+ */
 void HeuristicSearch::checkCentre(TicTacToe *board)
 {
     int currScore = HEURISTIC_INIAL_SCORE;
@@ -90,6 +105,11 @@ void HeuristicSearch::checkCentre(TicTacToe *board)
     }
 }
 
+/**
+ * @brief Checks if the cross is available and prioritize it
+ *
+ * @param board A pointer to the board
+ */
 void HeuristicSearch::checkCross(TicTacToe *board)
 {
     int currScore = HEURISTIC_INIAL_SCORE;
@@ -101,6 +121,11 @@ void HeuristicSearch::checkCross(TicTacToe *board)
     simulateMove(board, cross, currScore);
 }
 
+/**
+ * @brief Checks if the corners are available and prioritize them
+ *
+ * @param board A pointer to the board
+ */
 void HeuristicSearch::checkCorners(TicTacToe *board)
 {
     int currScore = HEURISTIC_INIAL_SCORE;
