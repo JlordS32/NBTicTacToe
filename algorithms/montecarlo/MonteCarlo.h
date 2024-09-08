@@ -47,7 +47,7 @@ public:
  */
 void MonteCarlo::useAlgorithm(int *x, int *y, const Coordinate *currentBoard)
 {
-    int bestScore = std::numeric_limits<int>::min();
+    int bestScore = NEGATIVE_INFINITY;
     int bestMoveX = -1, bestMoveY = -1;
 
     // Get the current board
@@ -165,6 +165,7 @@ int MonteCarlo::playOutGame(TicTacToe (*tempGrid)[3][3], TicTacToe *tempBoard)
 void MonteCarlo::simulateMove(TicTacToe *tempBoard, int &tempPlayer, int &status, int &x, int &y)
 {
     // Switch the player
+    bool isValid = false;
     tempPlayer = (tempPlayer == player) ? enemyPlayer : player;
 
     // Generate a random move while board is not empty.
@@ -172,7 +173,8 @@ void MonteCarlo::simulateMove(TicTacToe *tempBoard, int &tempPlayer, int &status
     do
     {
         Tools::generateRandomMove(&randX, &randY);
-    } while (tempBoard->getCell(randX, randY) != 0);
+        isValid = tempBoard->isValidMove(randX, randY);
+    } while (!isValid);
 
     // Add the random move
     tempBoard->addMove(randX, randY, tempPlayer);
