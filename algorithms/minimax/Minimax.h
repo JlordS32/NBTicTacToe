@@ -59,7 +59,7 @@ void Minimax::useAlgorithm(int *x, int *y, const Coordinate *currentBoard)
 
     if (!Tools::isBoardEmpty(board))
     {
-        // Simulate all possible moevs from the current state of the board
+        // Simulate all possible moves from the current state of the board
         for (int row = 0; row < BOARD_SIZE; row++)
         {
             for (int col = 0; col < BOARD_SIZE; col++)
@@ -130,7 +130,6 @@ int Minimax::minimax(TicTacToe *board, const bool isMaximising, const int depth)
         return score;
     }
 
-    // COMPUTER
     if (isMaximising)
     {
         // We set the initial best score for maximizing player to the lowest possible score. In this case -infinity.
@@ -140,7 +139,6 @@ int Minimax::minimax(TicTacToe *board, const bool isMaximising, const int depth)
         simulateMove(board, isMaximising, depth, bestScore);
         return bestScore;
     }
-    // PLAYER
     else
     {
         // We set the initial best score for minimizing player to the highest possible score. In this case +infinity.
