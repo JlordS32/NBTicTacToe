@@ -31,6 +31,13 @@ string MonteCarloPlayer::getName()
     return "Monte Carlo";
 }
 
+/**
+ * @brief Generates a move for computer using the Monte Carlo algorithm.
+ *
+ * @param x The x value corresponding to the board.
+ * @param y The y value corresponding to the board.
+ * @param currentBoard A pointer to Coordinate struct that holds the position of the current select board for this game.
+ */
 void MonteCarloPlayer::getMove(Move *currentPlayer, const Coordinate *currentBoard)
 {
     // Initialise temporary variables to contain the best move.

@@ -2,6 +2,7 @@
 #define TOOLS_H
 
 #include "../TicTacToe.h"
+#include <cstdlib>
 
 const int TOOLS_BOARD_SIZE = 3;
 
