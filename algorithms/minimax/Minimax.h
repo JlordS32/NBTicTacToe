@@ -9,12 +9,16 @@
 #include <cstdlib>
 #include <ctime>
 
+const int MINIMAX_MAX_PLAYER = -1;
+const int MINIMAX_MIN_PLAYER = 1;
+const int MINIMAX_PLAYER_WIN_WEIGHT = 20;
+
 class Minimax : public Algorithm
 {
 private:
     // PRIVATE METHODS
-    int minimax(TicTacToe *board, const bool isMaximising, const int depth);
-    bool isTerminalState(TicTacToe *board, const int depth, int &score);
+    int minimax(TicTacToe *board, TicTacToe *nextBoard, const bool isMaximising, const int depth);
+    bool isTerminalState(TicTacToe *board, TicTacToe *nextBoard, const int depth, int &score);
     void simulateMove(TicTacToe *board, const bool isMaximising, const int depth, int &bestScore);
 
 public:
@@ -23,13 +27,12 @@ public:
     /**
      * @brief Constructor
      *
-     * A simple version of the minimax algorithm. There's no optimisation
-     * or criterias on this one. It's simply just a minimax algorithm. This algorithm
-     * won't be effective as it thinks to win a single tictactoe game.
-     *
-     * I added some randomness into this algorithm especially when the board is empty
-     * so the algorithm can take advantage of the nine board tictactoe and not get
-     * defeated by Random Player all the time.
+     * A simple version of the minimax algorithm. There's no optimisation,
+     * It's simply just a minimax algorithm. This algorithm
+     * won't be effective as it thinks to win a single tictactoe game. To prevent from choosing
+     * the same first move every time. I gave the this algorithm the ability to check the next board
+     * so it can weigh the score of move it'll choose, effectively making it a good model for 
+     * nine board tictactoe.
      *
      * @param grid A pointer to the nineboard tictactoe. Type TicTacToe (*grid)[3][3].
      * @param player The player. Either 1 or -1
@@ -51,12 +54,13 @@ public:
  */
 void Minimax::useAlgorithm(int *x, int *y, const Coordinate *currentBoard)
 {
-    int bestScore = (this->player == -1 ? NEGATIVE_INFINITY : POSITIVE_INFINITY);
+    int bestScore = (this->player == MINIMAX_MAX_PLAYER ? NEGATIVE_INFINITY : POSITIVE_INFINITY);
     int bestX = -1, bestY = -1;
 
     // Starting board
     TicTacToe *board = &(*grid)[currentBoard->x][currentBoard->y];
 
+    // Only simulate if the board is not empty
     if (!Tools::isBoardEmpty(board))
     {
         // Simulate all possible moves from the current state of the board
@@ -72,16 +76,19 @@ void Minimax::useAlgorithm(int *x, int *y, const Coordinate *currentBoard)
                     board->addMove(row, col, this->player);
 
                     // Determine if player is maximising or minimising.
-                    bool isMaximising = (this->player == -1 ? false : true);
+                    bool isMaximising = (this->player == MINIMAX_MAX_PLAYER ? false : true);
+
+                    // Check next board
+                    TicTacToe *nextBoard = &(*this->grid)[row][col];
 
                     // Go to the next node (next player).
-                    int score = minimax(board, isMaximising, 0);
+                    int score = minimax(board, nextBoard, isMaximising, 0);
 
                     // Undo move
                     board->addMove(row, col, BOARD_EMPTY);
 
                     // MAXIMISING
-                    if (this->player == -1)
+                    if (this->player == MINIMAX_MAX_PLAYER)
                     {
                         if (score > bestScore)
                         {
@@ -104,6 +111,8 @@ void Minimax::useAlgorithm(int *x, int *y, const Coordinate *currentBoard)
             }
         }
     }
+
+    // Choose a random move if the board the player is in is empty.
     else
     {
         Tools::generateRandomMove(&bestX, &bestY);
@@ -122,10 +131,10 @@ void Minimax::useAlgorithm(int *x, int *y, const Coordinate *currentBoard)
  * @param isMaximising Whether it is the computer's turn or not
  * @return The score of the best move
  */
-int Minimax::minimax(TicTacToe *board, const bool isMaximising, const int depth)
+int Minimax::minimax(TicTacToe *board, TicTacToe *nextBoard, const bool isMaximising, const int depth)
 {
     int score = 0;
-    if (isTerminalState(board, depth, score))
+    if (isTerminalState(board, nextBoard, depth, score))
     {
         return score;
     }
@@ -164,25 +173,28 @@ int Minimax::minimax(TicTacToe *board, const bool isMaximising, const int depth)
  * @return `true` if the game is over or
  * @return `false` if the game is not over
  */
-bool Minimax::isTerminalState(TicTacToe *board, const int depth, int &score)
+bool Minimax::isTerminalState(TicTacToe *board, TicTacToe *nextBoard, const int depth, int &score)
 {
     // Check game status
     int status = board->gameStatus();
 
+    // Count number of enemy occurrences on the next board.
+    int noEnemyOccurrences = Tools::checkValues(nextBoard, this->enemyPlayer);
+
     // Check each terminal state
-    if (status == 1) // Minimising player has won
+    if (status == MINIMAX_MIN_PLAYER) // Minimising player has won
     {
-        score = -10 + depth;
+        score = -MINIMAX_PLAYER_WIN_WEIGHT + depth + noEnemyOccurrences;
         return true;
     }
-    else if (status == -1) // Maximising player has won
+    else if (status == MINIMAX_MAX_PLAYER) // Maximising player has won
     {
-        score = 10 - depth;
+        score = MINIMAX_PLAYER_WIN_WEIGHT - (depth + noEnemyOccurrences);
         return true;
     }
-    else if (status == 2) // Draw
+    else if (status == GAME_DRAW) // Draw
     {
-        score = 0;
+        score = 0 - noEnemyOccurrences;
         return true;
     }
 
@@ -210,8 +222,11 @@ void Minimax::simulateMove(TicTacToe *board, const bool isMaximising, const int 
                 // Set the cell value to the current player
                 board->addMove(row, col, isMaximising ? -1 : 1);
 
+                // Check next board
+                TicTacToe *nextBoard = &(*this->grid)[row][col];
+
                 // Simulate the next move for the next player
-                int score = minimax(board, depth + 1, !isMaximising);
+                int score = minimax(board, nextBoard, depth + 1, !isMaximising);
 
                 // Undo for the next branch
                 board->addMove(row, col, BOARD_EMPTY);

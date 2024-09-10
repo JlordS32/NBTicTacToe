@@ -5,8 +5,6 @@
 #include "../base/Heuristic_Search.h"
 #include "../../../struct/Coordinate.h"
 #include "../../../TicTacToe.h"
-#include <cstdlib>
-#include <ctime>
 
 class MindfulAlgorithm : public HeuristicSearch
 {
@@ -14,8 +12,6 @@ public:
     MindfulAlgorithm(TicTacToe (*grid)[3][3], int player)
         : HeuristicSearch(grid, player)
     {
-        // Seed the random number generator.
-        srand(time(0));
     }
 
     void useAlgorithm(int *x, int *y, const Coordinate *currentBoard) override;

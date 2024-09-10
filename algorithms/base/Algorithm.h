@@ -13,6 +13,7 @@ using namespace std;
 // CONSTANTS
 const int PLAYER_ONE = 1;
 const int PLAYER_TWO = -1;
+const int GAME_DRAW = 2;
 const int GAME_RUNNING = 0;
 const int POSITIVE_INFINITY = std::numeric_limits<int>::max();
 const int NEGATIVE_INFINITY = std::numeric_limits<int>::min();
@@ -45,7 +46,8 @@ public:
         // Seed randomization
         srand(time(0));
     }
-
+    
+    // Virtual method to be implemented by derived classes.
     virtual void useAlgorithm(int *x, int *y, const Coordinate *currentBoard) = 0;
 };
 

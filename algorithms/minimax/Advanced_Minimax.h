@@ -118,7 +118,7 @@ void Advanced_Minimax::useAlgorithm(int *x, int *y, const Coordinate *currentBoa
                 // Depending on the kind of player is our Minimax algorith (1 or -1)
                 // The best move is the one that maximises or minimises the score.
                 // MAXIMISING
-                if (this->player == -1)
+                if (this->player == MAX_PLAYER)
                 {
                     if (score > bestScore)
                     {
@@ -212,7 +212,7 @@ bool Advanced_Minimax::isTerminalState(TicTacToe *prevBoard, TicTacToe *currBoar
     int prevBoardStatus = prevBoard->gameStatus();
 
     // Get the number of enemy occurrences to weigh the score.
-    int noEnemyOccurrences = Tools::checkValues(currBoard, 1);
+    int noEnemyOccurrences = Tools::checkValues(currBoard, this->enemyPlayer);
 
     // Check each terminal state.
     if (prevBoardStatus == MAX_PLAYER)
@@ -225,7 +225,7 @@ bool Advanced_Minimax::isTerminalState(TicTacToe *prevBoard, TicTacToe *currBoar
         score = -ADVANCED_MINIMAX_WIN_WEIGHT + depth + noEnemyOccurrences;
         return true;
     }
-    if (prevBoardStatus == 2)
+    if (prevBoardStatus == GAME_DRAW)
     {
         score = 0;
         return true;

@@ -35,8 +35,6 @@ public:
      * This search algorithm simply just looks for centre, corners and cross.
      * It prioritises the following order. Centre > Corners > Cross
      *
-     * However due to the nature of the game, every decision is heavily weighted by the number of enemy moves on the next board. This allows the algorithm to effectively think if making a position at x, y is risky or not.
-     *
      * @param player The player symbol
      * @param grid A pointer to the board
      */
@@ -138,9 +136,10 @@ void HeuristicSearch::checkCorners(TicTacToe *board)
 }
 
 /**
- * @brief Function simulator for this class
+ * @brief Generates all possible next move
  *
- * It takes an array of 4 coordinates and evaluates the score of each move.
+ * This methods explores all possible next moves and evaluates their score
+ * so the algorithm can decide which move is the best.
  *
  * @param board A pointer to the current board.
  * @param arr An array of 4 coordinates. Type int[4][2].
