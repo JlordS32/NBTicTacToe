@@ -78,7 +78,7 @@ void BoardManager::switchBoard(const Move currentPlayer)
     int boardY = currentPlayer.y;
 
     // Check if the board is full
-    TicTacToe *board = &(*this->grid)[this->currentBoard->x][this->currentBoard->y];
+    TicTacToe *board = &(*this->grid)[boardX][boardY];
     if (Tools::isBoardFull(board))
     {
         this->setRandomBoard();
