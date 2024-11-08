@@ -72,7 +72,7 @@ void Minimax::useAlgorithm(int *x, int *y, const Coordinate *currentBoard)
                 if (board->getCell(row, col) == BOARD_EMPTY)
                 {
                     // SIMULATING EACH MOVE
-                    // We set the cell to -1 because -1 is computer
+                    // We set the cell to player value = computer.
                     board->addMove(row, col, this->player);
 
                     // Determine if player is maximising or minimising.
